@@ -32,21 +32,27 @@ fs.readdirSync(path.join(__dirname, 'models')).forEach((file)=>{
     models[file] = require('./models/' + file)(sequelize, Sequelize);
 });
 
+//relations of models
 models.Client.hasMany(models.Zone, {foreignKey: 'client_id'});
-models.Customer.hasMany(models.Client, {foreignKey: 'customer_id'});
 models.Client.hasOne(models.Ftp_settings, {foreignKey: 'client_id'});
+models.Client.belongsTo(models.Customer, {foreignKey: 'customer_id'});
+models.Client.hasMany(models.Order, {foreignKey: 'customer_code'});
+
+models.Customer.hasMany(models.Client, {foreignKey: 'customer_id'});
 
 models.Ftp_settings.belongsTo(models.Client, {foreignKey: 'client_id'});
-models.Client.belongsTo(models.Customer, {foreignKey: 'customer_id'});
+
 models.Zone.belongsTo(models.Client, {foreignKey: 'client_id'});
 
-sync();
+models.Country.hasMany(models.Address, {foreignKey: 'country_id'});
 
-async function sync(){
-    await models.Ftp_settings.sync({force:true});
-    await models.Client.sync({force:true});
-    await models.Customer.sync({force:true});
-    await models.Zone.sync({force:true});
-}
+models.Address.belongsTo(models.Country, {foreignKey: 'country_id'});
+models.Address.hasOne(models.Activity, {foreignKey: 'address_id'});
+
+models.Activity.belongsTo(models.Address, {foreignKey: 'address_id'});
+models.Activity.belongsTo(models.Order, {foreignKey: 'shipment_id'});
+
+models.Order.hasMany(models.Activity, {foreignKey: 'shipment_id'});
+models.Order.belongsTo(models.Client, {foreignKey: 'customer_code'});
 
 module.exports = models;

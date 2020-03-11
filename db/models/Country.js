@@ -1,12 +1,12 @@
 const model = (sequelize, Sequelize)=>{
-    const Client = sequelize.define('client', {
+    const Country = sequelize.define('country', {
         name: Sequelize.STRING,
-        sync: Sequelize.BOOLEAN
+        code: Sequelize.STRING
     },{
         timestamps: false
     });
 
-    return Client;
+    return Country;
 };
 
 module.exports = model;
