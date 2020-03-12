@@ -1,7 +1,7 @@
 const model = (sequelize, Sequelize)=>{
     const Order = sequelize.define('order', {
         name: Sequelize.STRING,
-        debtorNr: Sequelize.STRING,
+        debtorNr: Sequelize.STRING,//
         date: Sequelize.DATE,
         units: Sequelize.INTEGER,
         weight: Sequelize.FLOAT,
