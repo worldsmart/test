@@ -1,3 +1,4 @@
 .idea/
 node_modules/
 trekt.iml
+vue/node_modules/
