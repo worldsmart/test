@@ -3,11 +3,13 @@ const bodyParser = require('body-parser');
 const router = require('./rourer/index');
 const jwt = require('jsonwebtoken');
 const user = require('./hardcode');
+const fileUpload = require('express-fileupload');
 
 let app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(fileUpload());
 
 app.use((req, res, next)=>{
     if(req.url === '/api/login'){

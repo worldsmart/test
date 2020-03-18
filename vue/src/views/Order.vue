@@ -6,7 +6,8 @@
                 <v-list-item-content>
                     <v-list-item-title class="headline mb-1">Order №{{order.id}}</v-list-item-title>
                     <div class="form">
-                        <div class="text--primary">Name: {{order.name}}</div>
+                        <div class="text--primary">Code: {{order.name}}</div>
+                        <div class="text--primary">Order status: {{order.status}}</div>
                         <div class="text--primary">Customer code: {{order.customer_code ? order.customer_code : '-'}}</div>
                         <div class="text--primary">Debtor Number: {{order.debtorNr ? order.debtorNr : '-'}}</div>
                         <div class="text--primary">Date: {{order.date}}</div>

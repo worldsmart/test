@@ -27,6 +27,10 @@
                     <v-icon left>settings_applications</v-icon>
                     Ftp settings
                 </v-tab>
+                <v-tab>
+                    <v-icon left>rowing</v-icon>
+                    Load XML
+                </v-tab>
                 <v-tab-item>
                     <v-card class="menu" flat>
                         <OrderList :orders="client.orders"></OrderList>
@@ -47,6 +51,11 @@
                         <FtpSettings :ftp_settings="client.ftp_setting"></FtpSettings>
                     </v-card>
                 </v-tab-item>
+                <v-tab-item>
+                    <v-card flat>
+                        <Load :id="id"></Load>
+                    </v-card>
+                </v-tab-item>
             </v-tabs>
         </v-card>
     </div>
@@ -57,6 +66,7 @@
     import FtpSettings from '@/components/FtpSettings.vue'
     import ClientOptions from '@/components/ClientOptions.vue'
     import OrderList from '@/components/OrderList.vue'
+    import Load from '@/components/Load.vue'
 
     export default {
         name: 'Client',
@@ -65,7 +75,8 @@
             ZoneList,
             FtpSettings,
             ClientOptions,
-            OrderList
+            OrderList,
+            Load
         },
         data(){
             return{

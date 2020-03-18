@@ -1,5 +1,21 @@
 <template>
     <div class="navbar">
+        <v-app-bar
+                color="blue lighten-1" dense>
+            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+            <v-toolbar-title>MDK</v-toolbar-title>
+
+            <v-spacer></v-spacer>
+
+            <div class="my-2">
+                <v-btn outlined active-class="active" text><router-link :class="$route.path == '/' ? 'active' : ''" to="/" tag="div">Home</router-link></v-btn>
+            </div>
+
+            <div class="my-2">
+                <v-btn text>Normal</v-btn>
+            </div>
+        </v-app-bar>
         <v-app-bar>
             <v-container>
                 <v-row align="center" justify="center">
@@ -41,7 +57,7 @@
             color: white;
         }
         .active{
-            color: white;
+            color: red;
         }
     }
 </style>

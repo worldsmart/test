@@ -1,50 +1,65 @@
 const parser = require('xml2js');
-const path = require('path');
-const fs = require('fs');
-const {Client, Order} = require('./db/index');
 
+module.exports = (filedata)=>{
+    return new Promise((resolve, reject) => {
+        parser.parseString(filedata, function (err, result) {
+            if(err){
+                reject(err);
+            }
 
+            let parsed = [];
+            let date = new Date();
+            date.setUTCHours(0);
+            date.setUTCMinutes(0);
+            date.setUTCSeconds(0);
+            date.setUTCMilliseconds(0);
 
-const express = require('express');
-
-let app = express();
-
-app.get('/parse', (req, res)=>{
-    let filedata = fs.readFileSync(path.join(__dirname, 'ex.xml'), 'utf8');
-
-    parser.parseString(filedata, function (err, result) {
-        for(let i = 0;i < result['Subcontractors']['Subcontractor'].length;i++){
-            let Subcontractor = result['Subcontractors']['Subcontractor'][i];
-            Client.create({
-                name: Subcontractor['SubcontractorName'][0],
-                sync: true
-            }).then(client=>{
-                if(!client){
-                    console.error('Failed client creation');
-                    return;
-                }
-                console.log('client id: ' + client.id);
-                for(let y = 0;y < Subcontractor['Shipment'].length;y++){
-                    let Shipment = Subcontractor['Shipment'][y];
-                    /*Order.create({
-                        name: Shipment['ShipmentID'][0],
-                        date: new Date(),
-                        units: Shipment['Cargoline'][0]['CargolineUnit'][0]
-                    }).then(order=>{
-                        if(!order){
-                            console.error('Failed client creation');
-                            return;
+            for(let i = 0;i < result['Subcontractors']['Subcontractor'][0]['Shipment'].length;i++){
+                let shipment = result['Subcontractors']['Subcontractor'][0]['Shipment'][i];
+                let order = {
+                    name: shipment['ShipmentID'][0],
+                    status: shipment['ShipmentStatus'][0],
+                    date: date,
+                    units: shipment['Cargoline'][0]['PackingUnit'][0],
+                    weight: shipment['Cargoline'][0]['CargolineWeight'][0],
+                    volume: shipment['Cargoline'][0]['CargolineVolume'][0],
+                    load_meters: shipment['Cargoline'][0]['CargolineLoadingMeters'][0],
+                    description: shipment['Cargoline'][0]['CargolineDescription'][0],
+                    cargo: shipment['Cargoline'][0]['MarksNumbers'][0],
+                    activities:{
+                        loading: {
+                            name: shipment['LoadingName'][0],
+                            phone: shipment['LoadingContactPhone'][0],
+                            contact_person: shipment['LoadingContact'][0],
+                            date: shipment['LoadingDate'][0],
+                            time_from: shipment['LoadingTimeFrom'][0],
+                            time_till: shipment['LoadingTimeTo'][0],
+                            address: {
+                                street: shipment['LoadingAddress'][0],
+                                zip_code: shipment['LoadingZipcode'][0],
+                                city: shipment['LoadingCity'][0],
+                                country: shipment['LoadingCountryCode'][0]
+                            }
+                        },
+                        unloading: {
+                            name: shipment['UnloadingName'][0],
+                            phone: shipment['UnloadingContactPhone'][0],
+                            contact_person: shipment['UnloadingContact'][0],
+                            date: shipment['UnloadingDate'][0],
+                            time_from: shipment['UnloadingTimeFrom'][0],
+                            time_till: shipment['UnloadingTimeTo'][0],
+                            address: {
+                                street: shipment['UnloadingAddress'][0],
+                                zip_code: shipment['UnloadingZipcode'][0],
+                                city: shipment['UnloadingCity'][0],
+                                country: shipment['UnloadingCountryCode'][0]
+                            }
                         }
-                        console.log('order id: ' + order.id);
-                    });*/
-                }
-            });
-        }
-
-        res.json(result['Subcontractors']['Subcontractor'][0]['Shipment'][0]);
+                    }
+                };
+                parsed.push(order);
+            }
+            resolve(parsed);
+        });
     });
-});
-
-app.listen(8081, ()=>{
-   console.log('Server started');
-});
+};

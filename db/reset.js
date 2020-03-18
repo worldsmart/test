@@ -25,18 +25,18 @@ function createOrder() {
     return new Promise((resolve, reject) => {
         models.Order.sync({force:true}).then(()=>{
             models.Order.bulkCreate([
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
-                {name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1}
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1},
+                {status: faker.random.number(42597), name: faker.name.firstName(), date: new Date(), weight: faker.random.number(66), customer_code: faker.random.number(7) + 1}
             ]).then(()=>{
                 console.log('Orders created');
                 resolve();

@@ -82,7 +82,10 @@ router.get('/profile', (req, res, next)=>{
                 model: Ftp_settings
             },
             {
-                model: Order
+                model: Order,
+                order: [
+                    ['id', 'DESC']
+                ]
             },
             {
                 model: Zone
