@@ -1,12 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const router = require('./rourer/index');
+const router = require('./router/index');
 const jwt = require('jsonwebtoken');
 const user = require('./hardcode');
 const fileUpload = require('express-fileupload');
 
 let app = express();
 const port = 3000;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+process.env.root = __dirname;
 
 app.use(bodyParser.json());
 app.use(fileUpload());
