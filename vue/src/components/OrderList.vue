@@ -1,6 +1,5 @@
 <template>
     <div class="table">
-        <v-text-field v-model="search_string" @input="search" label="Search"></v-text-field>
         <v-simple-table dense>
             <template v-slot:default>
                 <thead>

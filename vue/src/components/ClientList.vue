@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card color="grey darken-3">
+        <v-card :loading="!clients[0]" color="grey darken-3">
             <v-card-title>
                 Clients
                 <v-spacer></v-spacer>

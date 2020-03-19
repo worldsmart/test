@@ -7,12 +7,17 @@ const fileUpload = require('express-fileupload');
 
 let app = express();
 const port = 3000;
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
-process.env.root = __dirname;
 
 app.use(bodyParser.json());
 app.use(fileUpload());
+
+process.env.root = __dirname;
+
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
+/*process.on('unhandledRejection', error => {
+
+});*/
 
 app.use((req, res, next)=>{
     if(req.url === '/api/login'){

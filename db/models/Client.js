@@ -1,6 +1,6 @@
 const model = (sequelize, Sequelize)=>{
     const Client = sequelize.define('client', {
-        name: Sequelize.STRING,
+        name: Sequelize.STRING(1000),
         sync: Sequelize.BOOLEAN
     },{
         timestamps: false

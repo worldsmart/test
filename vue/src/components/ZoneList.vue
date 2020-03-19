@@ -73,6 +73,10 @@
                 </v-card-actions>
             </v-card>
         </div>
+
+        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+            Zip zone was successfully created
+        </v-snackbar>
     </div>
 </template>
 
@@ -90,7 +94,8 @@
                 name: '',
                 group: '',
                 zip_codes: [],
-                menu: false
+                menu: false,
+                snackbar: false
             }
         },
         methods: {
@@ -105,9 +110,9 @@
                         Authorization: localStorage.getItem('jwt')
                     }
                 }).then((res) => {
-                    console.log(res);
                     this.zones.unshift(res.body.zone);
                     this.menu = false;
+                    this.snackbar = true;
                 }, (err) => {
                     console.log(err);
                 });
