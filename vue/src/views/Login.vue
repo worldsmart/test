@@ -35,7 +35,7 @@
                 }).then((res) => {
                     console.log(res);
                     localStorage.setItem('jwt', res.body.jwt);
-                    this.$router.push('/customers');
+                    location.replace('/home');
                 }, (err) => {
                     console.log(err);
                 });

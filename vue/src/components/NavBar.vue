@@ -1,42 +1,29 @@
 <template>
     <div class="navbar">
-        <v-app-bar
-                color="blue lighten-1" dense>
+        <v-app-bar color="grey darken-4" dense>
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
             <v-toolbar-title>MDK</v-toolbar-title>
-
             <v-spacer></v-spacer>
-
-            <div class="my-2">
-                <v-btn outlined active-class="active" text><router-link :class="$route.path == '/' ? 'active' : ''" to="/" tag="div">Home</router-link></v-btn>
-            </div>
-
-            <div class="my-2">
-                <v-btn text>Normal</v-btn>
-            </div>
         </v-app-bar>
-        <v-app-bar>
-            <v-container>
-                <v-row align="center" justify="center">
-                    <div class="my-2 link">
-                        <router-link :class="$route.path == '/' ? 'active' : ''" to="/" tag="div">Home</router-link>
-                    </div>
-                    |
-                    <div class="my-2 link">
-                        <router-link :class="$route.path == '/login' ? 'active' : ''" :to="'/login'" tag="div">Login</router-link>
-                    </div>
-                    |
-                    <div class="my-2 link">
-                        <router-link :class="$route.path == '/customers' ? 'active' : ''" :to="'/customers'" tag="div">Customers</router-link>
-                    </div>
-                    |
-                    <div class="my-2 link">
-                        <router-link :class="$route.path == '/clientss' ? 'active' : ''" :to="'/clients'" tag="div">Clients</router-link>
-                    </div>
-                </v-row>
-            </v-container>
-        </v-app-bar>
+
+        <v-tabs v-if="location != '/login'" background-color="grey darken-4" color="">
+            <v-tab to="/">
+                Home
+            </v-tab>
+            <v-tab to="/customers">
+                Customers
+            </v-tab>
+            <v-tab to="/clients">
+                Clients
+            </v-tab>
+            <v-tab to="/orders">
+                Orders
+            </v-tab>
+            <v-tab to="/zones">
+                Zones
+            </v-tab>
+        </v-tabs>
+
     </div>
 </template>
 
@@ -65,8 +52,10 @@
 <script>
     export default {
         name: 'Nav',
-        data: () => ({
-
-        }),
+        data: function () {
+            return {
+                location: window.location.pathname
+            }
+        },
     };
 </script>

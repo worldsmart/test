@@ -18,7 +18,7 @@
                         <div class="text--primary">Description: {{order.description ? order.description : 'No description'}}</div>
                         <div class="text--primary">Order type: {{order.order_type ? order.order_type : '-'}}</div>
                         <div class="text--primary">Transport type: {{order.transport_type ? order.transport_type : '-'}}</div>
-                        <div class="text--primary">Plangroup: {{order.plangroup ? order.plangroup : '-'}}</div>
+                        <div class="text--primary">Plangroup: {{order.zone.plangroup ? order.zone.plangroup : '-'}}</div>
                         <div class="text--primary">Cargoline: {{order.cargo ? order.cargo : '-'}}</div>
                         <div class="text--primary">Reuse address: {{order.reuse_address ? order.reuse_address : 'No'}}</div>
                         <div class="text--primary">Source: {{order.source ? order.source : 'No'}}</div>
@@ -36,12 +36,10 @@
                                     <div class="text--primary">Contact person: {{item.contact_person}}</div>
                                     <div class="text--primary">Remarks: {{item.remarks}}</div>
                                     <div class="text--primary">Date: {{item.date}}</div>
-                                    <div class="text--primary">Date from: {{item.date_from}}</div>
-                                    <div class="text--primary">Date until: {{item.date_until}}</div>
                                     <div class="text--primary">Time from: {{item.time_from}}</div>
                                     <div class="text--primary">Time till: {{item.time_till}}</div>
                                     <div class="text--primary">Sequence: {{item.sequence}}</div>
-                                    <div class="text--primary">Shipment ID: {{order.shipment_id}}</div>
+                                    <div class="text--primary">Shipment ID: {{item.shipment_id}}</div>
 
                                     <v-list-item three-line>
                                         <v-list-item-content>
@@ -81,6 +79,7 @@
                     Authorization: localStorage.getItem('jwt')
                 }
             }).then((res) => {
+                res.body.order.zone = res.body.zone;
                 this.order = res.body.order;
             }, (err) => {
                 console.log(err);

@@ -30,6 +30,10 @@
                 <v-btn class="mr-4" @click="submit">Add</v-btn>
             </v-card-actions>
         </v-card>
+
+        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+            Client was created
+        </v-snackbar>
     </div>
 </template>
 
@@ -45,7 +49,8 @@
                 host:'',
                 port: null,
                 username:'',
-                password: ''
+                password: '',
+                snackbar: false
             }
         },
         methods: {
@@ -64,6 +69,7 @@
                         Authorization: localStorage.getItem('jwt')
                     }
                 }).then(() => {
+                    this.snackbar = true;
                     document.location.reload(true);
                 }, (err) => {
                     console.log(err);
@@ -77,7 +83,5 @@
 </script>
 
 <style lang="scss">
-    .form{
-        margin: 20px 40px;
-    }
+
 </style>

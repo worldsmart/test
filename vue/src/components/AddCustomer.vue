@@ -1,12 +1,18 @@
 <template>
     <div class="form">
-        <form class="add_customer_form">
-            <div>Add Customer</div>
-            <v-text-field v-model="name" label="Customer name" hide-details="auto"></v-text-field>
-            <v-text-field v-model="slim_id" label="Slim organisation ID" hide-details="auto"></v-text-field>
-            <v-switch v-model="active" label="Active"></v-switch>
-            <v-btn class="mr-4" @click="submit">add</v-btn>
-        </form>
+        <v-card class="mx-auto" outlined>
+            <v-list-item three-line>
+                <v-list-item-content>
+                    <v-list-item-title class="headline mb-1">Add Customer</v-list-item-title>
+                    <form class="add_customer_form">
+                        <v-text-field v-model="name" label="Customer name" hide-details="auto"></v-text-field>
+                        <v-text-field v-model="slim_id" label="Slim organisation ID" hide-details="auto"></v-text-field>
+                        <v-switch v-model="active" label="Active"></v-switch>
+                        <v-btn class="mr-4" @click="submit">add</v-btn>
+                    </form>
+                </v-list-item-content>
+            </v-list-item>
+        </v-card>
     </div>
 </template>
 

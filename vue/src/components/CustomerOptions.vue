@@ -13,6 +13,10 @@
                 <v-btn class="mr-4" @click="save">Save</v-btn>
             </v-card-actions>
         </v-card>
+
+        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+            Customer was updated
+        </v-snackbar>
     </div>
 </template>
 
@@ -26,7 +30,7 @@
         },
         data(){
             return{
-
+                snackbar: false
             }
         },
         methods: {
@@ -40,7 +44,7 @@
                         Authorization: localStorage.getItem('jwt')
                     }
                 }).then(() => {
-                    document.location.reload(true);
+                    this.snackbar = true;
                 }, (err) => {
                     console.log(err);
                 });

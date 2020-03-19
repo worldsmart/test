@@ -57,4 +57,29 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.path == '/login'){
+    next();
+  }
+  else if(localStorage.getItem('jwt')){
+    Vue.http.get('/api/login', {
+      headers: {
+        Authorization: localStorage.getItem('jwt')
+      }
+    }).then((res) => {
+      if(res.status == '200'){
+        next();
+      }
+      else {
+        next('/login');
+      }
+    }, (err) => {
+      console.log(err);
+      next('/login');
+    });
+  }else {
+    next('/login');
+  }
+});
+
 export default router

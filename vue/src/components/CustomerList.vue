@@ -1,31 +1,24 @@
 <template>
     <div class="table">
-        <v-text-field v-model="search_string" @input="search" label="Search"></v-text-field>
-        <v-progress-linear
-                v-if="loading"
-                indeterminate
-                color="cyan"
-        ></v-progress-linear>
-        <v-simple-table dense>
-            <template v-slot:default>
-                <thead>
-                <tr>
-                    <th class="text-left">ID</th>
-                    <th class="text-left">Name</th>
-                    <th class="text-left">Slim ID</th>
-                    <th class="text-left">Active</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item in display_customers" :key="item.id" @click="goToCustomer(item.id)">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.slim_organisation_id }}</td>
-                    <td>{{ item.active }}</td>
-                </tr>
-                </tbody>
-            </template>
-        </v-simple-table>
+
+        <v-card color="grey darken-3" :loading="loading">
+            <v-card-title>
+                Customers
+                <v-spacer></v-spacer>
+                <v-text-field v-model="search_string" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+            </v-card-title>
+
+            <v-data-table background-color="blue-grey darken-3" dense :headers="headers" :items="customers" :search="search_string">
+                <template v-slot:item.actions="{ item }">
+                    <v-icon small class="mr-2" @click="goToCustomer(item.id)">account_box</v-icon>
+                    <v-icon small @click="deleteCustomer(item.id)">mdi-delete</v-icon>
+                </template>
+            </v-data-table>
+        </v-card>
+
+        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+            Customer was deleted
+        </v-snackbar>
     </div>
 </template>
 
@@ -36,8 +29,33 @@
             return{
                 customers: [],
                 search_string: '',
-                display_customers: [],
-                loading: true
+                loading: true,
+                snackbar: false,
+                headers: [
+                    {
+                        text: 'ID',
+                        value: 'id',
+                        filterable: true
+                    },
+                    {
+                        text: 'Name',
+                        value: 'name',
+                        filterable: true
+                    },
+                    {
+                        text: 'Slim ID',
+                        value: 'slim_organisation_id',
+                        filterable: true
+                    },
+                    {
+                        text: 'Active',
+                        value: 'active'
+                    },
+                    {
+                        text: 'Actions',
+                        value: 'actions'
+                    }
+                ]
             }
         },
         methods: {
@@ -48,6 +66,23 @@
             },
             goToCustomer(id){
                 this.$router.push({ path: '/customer', query: { id: id } })
+            },
+            deleteCustomer(id){
+                if (window.confirm("Do you really want to delete customer? id=" + id)) {
+                    this.$http.delete('/api/customer?id=' + id, {
+                        headers: {
+                            Authorization: localStorage.getItem('jwt')
+                        }
+                    }).then((res) => {
+                        console.log(res);
+                        this.snackbar = true;
+                        this.customers = this.customers.filter(customer=>{
+                            return customer.id == id ? false : true;
+                        });
+                    }, (err) => {
+                        console.log(err.bodyText);
+                    });
+                }
             }
         },
         created: function(){

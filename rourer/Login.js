@@ -23,4 +23,17 @@ router.put('/', (req, res, next)=>{
     }
 });
 
+router.get('/', (req, res, next)=>{
+    if(!req.headers.authorization){
+        res.status(401).send('Authorization header required');
+    }else {
+        let decoded = jwt.verify(req.headers.authorization, 'secret');
+        if(decoded.data.login === user.login && decoded.data.password === user.password){
+            res.json();
+        }else {
+            res.status(401).send('Unauthorized. Wrong username or password.');
+        }
+    }
+});
+
 module.exports = router;

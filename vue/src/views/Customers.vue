@@ -1,29 +1,30 @@
 <template>
-    <v-card class="menu">
-        <v-toolbar flat color="primary" dark>
-            <v-toolbar-title>Customers</v-toolbar-title>
-        </v-toolbar>
-        <v-tabs vertical>
+    <div>
+        <v-tabs class="elevation-2">
+            <v-tabs-slider></v-tabs-slider>
             <v-tab>
-                <v-icon left>mdi-account</v-icon>
-                Customer List
+                List
             </v-tab>
             <v-tab>
-                <v-icon left>mdi-lock</v-icon>
                 Add customer
             </v-tab>
+
             <v-tab-item>
-                <v-card class="menu" flat>
-                    <CustomerList></CustomerList>
+                <v-card flat tile>
+                    <v-card-text class="text--primary">
+                        <CustomerList></CustomerList>
+                    </v-card-text>
                 </v-card>
             </v-tab-item>
             <v-tab-item>
-                <v-card flat>
-                    <AddCustomer></AddCustomer>
+                <v-card flat tile>
+                    <v-card-text class="text--primary">
+                        <AddCustomer></AddCustomer>
+                    </v-card-text>
                 </v-card>
             </v-tab-item>
         </v-tabs>
-    </v-card>
+    </div>
 </template>
 
 <script>

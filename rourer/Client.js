@@ -100,4 +100,22 @@ router.get('/profile', (req, res, next)=>{
     });
 });
 
+router.delete('/', (req, res)=>{
+    if(req.query.id){
+        Client.destroy({
+            where:{
+                id: req.query.id
+            }
+        }).then(r=>{
+            if(r){
+                res.json({})
+            }else {
+                res.status(400).send('No client with such id');
+            }
+        });
+    }else {
+        res.status(400).send('Id query param required');
+    }
+});
+
 module.exports = router;

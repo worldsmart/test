@@ -25,7 +25,6 @@ router.put('/load', (req, res, next)=>{
         for(let i = 0;i < data.length;i++){
             Order.create({
                 name: data[i].name,
-                status: data[i].status,
                 date: data[i].date,
                 units: Number(data[i].units),
                 weight: Number(data[i].weight),
@@ -33,7 +32,8 @@ router.put('/load', (req, res, next)=>{
                 load_meters: Number(data[i].load_meters),
                 description: data[i].description,
                 cargo: data[i].cargo,
-                customer_code: Number(req.body.id)
+                customer_code: Number(req.body.id),
+                additional: data[i].additional
             }).then((order)=>{
                 for(let key in data[i].activities){
                     Country.findOne({
@@ -45,6 +45,7 @@ router.put('/load', (req, res, next)=>{
                             street: data[i].activities[key].address.street,
                             zip_code: data[i].activities[key].address.zip_code,
                             city: data[i].activities[key].address.city,
+                            house_number: data[i].activities[key].address.house_number,
                             country_id: country.dataValues.id
                         }).then((address)=>{
                             let date = data[i].activities[key].date.split('-');
@@ -57,6 +58,7 @@ router.put('/load', (req, res, next)=>{
                                 date: new Date(data[i].activities[key].date),
                                 time_from: data[i].activities[key].time_from,
                                 time_till: data[i].activities[key].time_till,
+                                remarks: data[i].activities[key].remarks,
                                 sequence: null,
                                 shipment_id: order.dataValues.id,
                                 address_id: address.dataValues.id

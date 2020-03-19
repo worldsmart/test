@@ -6,8 +6,6 @@ const model = (sequelize, Sequelize)=>{
         contact_person: Sequelize.STRING,
         remarks: Sequelize.STRING,
         date: Sequelize.DATE,
-        date_from: Sequelize.DATEONLY,
-        date_until: Sequelize.DATEONLY,
         time_from: Sequelize.STRING,
         time_till: Sequelize.STRING,
         sequence: Sequelize.INTEGER

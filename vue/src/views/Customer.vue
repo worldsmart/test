@@ -1,48 +1,47 @@
 <template>
     <div>
         <v-progress-linear v-if="!customer.id" indeterminate color="cyan"></v-progress-linear>
-        <v-card v-if="customer.id" class="menu">
-            <v-toolbar flat color="primary" dark>
-                <v-toolbar-title>
-                    <div>
-                        Customer Profile
-                        <v-chip class="ma-2" label>ID: {{customer.id}}</v-chip>
-                        <v-chip class="ma-2" label>Name: {{customer.name}}</v-chip>
-                        <v-chip class="ma-2" label>Slim ID: {{customer.slim_organisation_id}}</v-chip>
-                        <v-chip class="ma-2" label>Active: {{customer.active}}</v-chip>
-                    </div>
-                </v-toolbar-title>
-            </v-toolbar>
-            <v-tabs vertical>
-                <v-tab>
-                    <v-icon left>mdi-account</v-icon>
-                    Clients
-                </v-tab>
-                <v-tab>
-                    <v-icon left>mdi-lock</v-icon>
-                    Options
-                </v-tab>
-                <v-tab>
-                    <v-icon left>playlist_add</v-icon>
-                    Add Client
-                </v-tab>
-                <v-tab-item>
-                    <v-card class="menu" flat>
+        <div style="margin:10px">
+            Customer Profile
+            <v-chip class="ma-2" label>ID: {{customer.id}}</v-chip>
+            <v-chip class="ma-2" label>Name: {{customer.name}}</v-chip>
+            <v-chip class="ma-2" label>Slim ID: {{customer.slim_organisation_id}}</v-chip>
+            <v-chip class="ma-2" label>Active: {{customer.active}}</v-chip>
+        </div>
+        <v-tabs class="elevation-2">
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab>
+                Clients
+            </v-tab>
+            <v-tab>
+                Options
+            </v-tab>
+            <v-tab>
+                Add client
+            </v-tab>
+
+            <v-tab-item>
+                <v-card flat tile>
+                    <v-card-text class="text--primary">
                         <ClientList :id="id" :clients="customer.clients"></ClientList>
-                    </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                    <v-card flat>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+            <v-tab-item>
+                <v-card flat tile>
+                    <v-card-text class="text--primary">
                         <CustomerOptions :customer="customer"></CustomerOptions>
-                    </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                    <v-card flat>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+            <v-tab-item>
+                <v-card flat tile>
+                    <v-card-text class="text--primary">
                         <AddClient :id="id"></AddClient>
-                    </v-card>
-                </v-tab-item>
-            </v-tabs>
-        </v-card>
+                    </v-card-text>
+                </v-card>
+            </v-tab-item>
+        </v-tabs>
     </div>
 </template>
 
