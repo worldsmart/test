@@ -35,12 +35,15 @@ fs.readdirSync(path.join(__dirname, 'models')).forEach((file)=>{
 //relations of models
 models.Client.hasMany(models.Zone, {foreignKey: 'client_id'});
 models.Client.hasOne(models.Ftp_settings, {foreignKey: 'client_id'});
+models.Client.hasMany(models.Ftp_files, {foreignKey: 'client_id'});
 models.Client.belongsTo(models.Customer, {foreignKey: 'customer_id'});
 models.Client.hasMany(models.Order, {foreignKey: 'customer_code'});
 
 models.Customer.hasMany(models.Client, {foreignKey: 'customer_id'});
 
 models.Ftp_settings.belongsTo(models.Client, {foreignKey: 'client_id'});
+
+models.Ftp_files.belongsTo(models.Client, {foreignKey: 'client_id'});
 
 models.Zone.belongsTo(models.Client, {foreignKey: 'client_id'});
 

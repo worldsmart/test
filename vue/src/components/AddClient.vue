@@ -16,6 +16,9 @@
                                     <v-text-field v-model="port" label="Port" hide-details="auto"></v-text-field>
                                     <v-text-field v-model="username" label="Username" hide-details="auto"></v-text-field>
                                     <v-text-field v-model="password" type="password" label="Password" hide-details="auto"></v-text-field>
+                                    <v-text-field v-model="data_path" label="Data path" hide-details="auto"></v-text-field>
+                                    <v-text-field v-model="done_path" label="Done path" hide-details="auto"></v-text-field>
+                                    <v-text-field v-model="err_path" label="Err path" hide-details="auto"></v-text-field>
                                 </v-list-item-content>
                                 )
                             </v-list-item>
@@ -50,7 +53,10 @@
                 port: null,
                 username:'',
                 password: '',
-                snackbar: false
+                snackbar: false,
+                data_path: '',
+                done_path: '',
+                err_path: ''
             }
         },
         methods: {
@@ -63,7 +69,10 @@
                     host: this.host,
                     port: this.port,
                     username: this.username,
-                    password: this.password
+                    password: this.password,
+                    data_path: this.data_path,
+                    done_path: this.done_path,
+                    err_path: this.err_path
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')

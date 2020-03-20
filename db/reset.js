@@ -10,8 +10,10 @@ createCustomers().then(()=>{
                     createAddress().then(()=>{
                         createOrder().then(()=>{
                             createActivity().then(()=>{
-                                console.log('Reset completed');
-                                process.exit();
+                                models.Ftp_files.sync({force:true}).then(()=>{
+                                    console.log('Reset completed');
+                                    process.exit();
+                                });
                             }).catch(err=>{console.log(err)});
                         }).catch(err=>{console.log(err)});
                     }).catch(err=>{console.log(err)});

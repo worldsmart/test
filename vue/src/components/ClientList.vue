@@ -48,6 +48,18 @@
                                         <td>password:</td>
                                         <td>{{ item.ftp_setting.password }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>data path:</td>
+                                        <td>{{ item.ftp_setting.data_path }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>done path:</td>
+                                        <td>{{ item.ftp_setting.done_path }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>err path:</td>
+                                        <td>{{ item.ftp_setting.err_path }}</td>
+                                    </tr>
                                     </tbody>
                                 </template>
                             </v-simple-table>

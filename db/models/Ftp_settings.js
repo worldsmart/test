@@ -4,7 +4,10 @@ const model = (sequelize, Sequelize)=>{
         host:Sequelize.STRING(1000),
         port: Sequelize.INTEGER,
         user: Sequelize.STRING(1000),
-        password: Sequelize.STRING(1000)
+        password: Sequelize.STRING(1000),
+        done_path: Sequelize.STRING(1000),
+        err_path: Sequelize.STRING(1000),
+        data_path: Sequelize.STRING(1000)
     },{
         timestamps: false
     });

@@ -9,6 +9,9 @@
                     <v-text-field v-model="ftp_settings.port" label="Port" hide-details="auto"></v-text-field>
                     <v-text-field v-model="ftp_settings.user" label="User" hide-details="auto"></v-text-field>
                     <v-text-field v-model="ftp_settings.password" label="Password" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="ftp_settings.data_path" label="Data path" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="ftp_settings.done_path" label="Done path" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="ftp_settings.err_path" label="Err path" hide-details="auto"></v-text-field>
                 </v-list-item-content>
             </v-list-item>
             <v-card-actions>

@@ -36,7 +36,10 @@ router.put('/', (req, res, next)=>{
                     host: data.host,
                     port: data.port,
                     user: data.username,
-                    password: data.password
+                    password: data.password,
+                    done_path: data.done_path,
+                    err_path: data.err_path,
+                    data_path: data.data_path
                 }).then((ftp=>{
                     if(!ftp){
                         res.json({err:'err'});

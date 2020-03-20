@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Ftp_settings, Order, Activity, Address, Country } = require('../db/index');
+const { Ftp_settings, Order, Activity, Address, Country, Ftp_files } = require('../db/index');
 const parser = require('../parser');
 const ftp = require("basic-ftp");
 const fs = require('fs');
 const path = require('path');
+const { uuid } = require('uuidv4');
 
 router.get('/xml', (req, res, next)=>{
     if(!req.query.id){
@@ -41,21 +42,24 @@ router.get('/xml', (req, res, next)=>{
                 if (!fs.existsSync(dir)) {
                     fs.mkdirSync(dir);
                 }
-                client.downloadTo(`./ftp/${req.query.id}/data.xml`, "test.xml").then(r=>{
-                    if(!r && r.code != 226){
-                        res.status(500).send('FTPS file copying err');
-                        return;
-                    }
 
-                    parser(fs.readFileSync(`./ftp/${req.query.id}/data.xml`, 'utf8')).then((data)=>{
-
-                        createOrders(data, req.query.id);
-
-                        res.json({
-                            msg: 'Orders successfully created'
+                client.list(settings.data_path).then(list=>{
+                    client.list(settings.done_path).then(()=>{
+                        client.list(settings.err_path).then(()=>{
+                            processFiles(client, list, settings);
+                            res.json({
+                                msg: 'done'
+                            });
+                        }).catch(e=>{
+                            res.status(400).send('Err directory not exists');
                         });
+                    }).catch(e=>{
+                        res.status(400).send('Done directory not exists');
                     });
+                }).catch(e=>{
+                    res.status(400).send('Data directory not exists');
                 });
+
             }).catch(e=>{
                 client.close();
                 res.status(500).send('FTPS connection err: ' + e);
@@ -139,6 +143,51 @@ router.put('/load', (req, res, next)=>{
         });
     });
 });
+
+async function processFiles(client, list, settings, counter = 0){
+    if(list.length == counter){
+        client.close();
+        return;
+    }
+    if(list[counter].name.match(/.*\.xml$/)){
+        let filename = uuid() + '.xml';
+        console.log('downloading file ' + settings.data_path + '/' + list[counter].name)
+
+        let r = await client.downloadTo(`./ftp/${settings.client_id}/${filename}`, settings.data_path + '/' + list[counter].name);
+        console.log('downloaded')
+
+        if(!r && r.code != 226){
+            await moveBadFile(client, `./ftp/${settings.client_id}/${filename}`, settings.err_path + '/' + list[counter].name, settings.data_path + '/' + list[counter].name);
+        }else {
+            let fileData = await Ftp_files.create({
+                local_name: filename,
+                original_name: list[counter].name,
+                client_id: settings.client_id
+            });
+
+            if(!fileData && !fileData.dataValues.id){
+                await moveBadFile(client, `./ftp/${settings.client_id}/${filename}`, settings.err_path + '/' + list[counter].name, settings.data_path + '/' + list[counter].name);
+            }else {
+                console.log('filedata seved')
+                try{
+                    let data = await parser(fs.readFileSync(`./ftp/${settings.client_id}/${filename}`, 'utf8'));
+                    console.log('saving orders')
+                    await createOrders(data, settings.client_id);
+                    await client.uploadFrom(`./ftp/${settings.client_id}/${filename}`, settings.done_path + '/' + list[counter].name);
+                    await client.remove(settings.data_path + '/' + list[counter].name);
+                }catch(e) {
+                    await moveBadFile(client, `./ftp/${settings.client_id}/${filename}`, settings.err_path + '/' + list[counter].name, settings.data_path + '/' + list[counter].name);
+                }
+            }
+        }
+    }
+    processFiles(client, list, settings, counter + 1);
+}
+
+async function moveBadFile(client, file, badFilePath, path){
+    await client.appendFrom(file, badFilePath);
+    await client.remove(path);
+}
 
 async function createOrders(data, client_id){
     for(let i = 0;i < data.length;i++){
