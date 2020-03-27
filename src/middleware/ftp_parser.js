@@ -322,7 +322,7 @@ async function createOrders(data, client_id){
             if(zip_zone){
                 returnOrder.plangroup = zip_zone.dataValues.plangroup;
             }else{
-                returnOrder.plangroup = 'Default';
+                returnOrder.plangroup = 'Kleine wielen';
             }
 
             returnActivity.address.country = country.dataValues;

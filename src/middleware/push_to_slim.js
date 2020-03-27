@@ -35,13 +35,14 @@ module.exports = async (data, id, org_id)=>{
             orders[i].activity = tmp;
 
             let r;
+
             try{
                 r = await axios.post('http://localhost:8082/ws/SF_SLIM_OrderControl', `
                 <soap:Envelope 
                 xmlns:tns="http://www.example.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <soap:Header>
                         <tns:authentication>
-                            <username>WS_Modality</username>
+                            <username>web</username>
                             <password>Roma123</password>
                         </tns:authentication>
                     </soap:Header>
@@ -53,14 +54,14 @@ module.exports = async (data, id, org_id)=>{
                                     <CustomerCode>${id}</CustomerCode>
                                     <Name></Name>
                                     <DebtorNr>${orders[i].debtorNr}</DebtorNr>
-                                    <Date>${orders[i].date.toISOString()}</Date>
-                                    <Units>${orders[i].units}</Units>
+                                    <Date>${orders[i].activity.loading.date.toISOString()}</Date>
+                                    <Units>${orders[i].units ? orders[i].units : 1}</Units>
                                     <Weight>${orders[i].weight}</Weight>
                                     <Volume>${orders[i].volume}</Volume>
                                     <LoadMeters>${orders[i].load_meters}</LoadMeters>
                                     <Description>${orders[i].description}</Description>
                                     <Activity>
-                                        <ActivityType>${orders[i].activity.loading.type}</ActivityType>
+                                        <ActivityType>Laden</ActivityType>
                                         <Name>${orders[i].activity.loading.name}</Name>
                                         <ExtraAddress></ExtraAddress>
                                         <Streetname>${orders[i].activity.loading.address.street}</Streetname>
@@ -69,20 +70,20 @@ module.exports = async (data, id, org_id)=>{
                                         <City>${orders[i].activity.loading.address.city}</City>
                                         <Latitude>${Number(orders[i].activity.loading.address.latitude)}</Latitude>
                                         <Longitude>${Number(orders[i].activity.loading.address.longitude)}</Longitude>
-                                        <AddressCode>${orders[i].activity.loading.address.id}</AddressCode>
+                                        <AddressCode>${orders[i].activity.loading.name}</AddressCode>
                                         <Phone>${orders[i].activity.loading.phone}</Phone>
                                         <Contactperson>${orders[i].activity.loading.contact_person}</Contactperson>
                                         <Remarks>${orders[i].activity.loading.remarks}</Remarks>
                                         <Date>${orders[i].activity.loading.date.toISOString()}</Date>
-                                        <DateFrom>${orders[i].activity.unloading.date.toISOString()}</DateFrom>
-                                        <DateTill>${orders[i].activity.unloading.date.toISOString()}</DateTill>
-                                        <TimeFrom>${orders[i].activity.loading.time_from}</TimeFrom>
-                                        <TimeTill>${orders[i].activity.loading.time_till}</TimeTill>
-                                        <AddressBlock></AddressBlock>
+                                        <DateFrom>${orders[i].activity.loading.date.toISOString()}</DateFrom>
+                                        <DateTill>${orders[i].activity.loading.date.toISOString()}</DateTill>
+                                        <TimeFrom>00:00</TimeFrom>
+                                        <TimeTill>00:00</TimeTill>
+                                        <AddressBlock>${orders[i].activity.loading.address.city + ' ' + orders[i].activity.loading.address.street + ' ' + orders[i].activity.loading.address.house_number + ' ' + orders[i].activity.loading.address.zip_code}</AddressBlock>
                                         <Sequence>${Number(orders[i].activity.loading.sequence)}</Sequence>
                                     </Activity>
                                     <Activity>
-                                        <ActivityType>${orders[i].activity.unloading.type}</ActivityType>
+                                        <ActivityType>Lossen</ActivityType>
                                         <Name>${orders[i].activity.unloading.name}</Name>
                                         <ExtraAddress></ExtraAddress>
                                         <Streetname>${orders[i].activity.unloading.address.street}</Streetname>
@@ -91,24 +92,24 @@ module.exports = async (data, id, org_id)=>{
                                         <City>${orders[i].activity.unloading.address.city}</City>
                                         <Latitude>${Number(orders[i].activity.unloading.address.latitude)}</Latitude>
                                         <Longitude>${Number(orders[i].activity.unloading.address.longitude)}</Longitude>
-                                        <AddressCode>${orders[i].activity.unloading.address.id}</AddressCode>
+                                        <AddressCode>${orders[i].activity.unloading.name}</AddressCode>
                                         <Phone>${orders[i].activity.unloading.phone}</Phone>
                                         <Contactperson>${orders[i].activity.unloading.contact_person}</Contactperson>
                                         <Remarks>${orders[i].activity.unloading.remarks}</Remarks>
                                         <Date>${orders[i].activity.unloading.date.toISOString()}</Date>
                                         <DateFrom>${orders[i].activity.unloading.date.toISOString()}</DateFrom>
                                         <DateTill>${orders[i].activity.unloading.date.toISOString()}</DateTill>
-                                        <TimeFrom>${orders[i].activity.unloading.time_from}</TimeFrom>
-                                        <TimeTill>${orders[i].activity.unloading.time_till}</TimeTill>
-                                        <AddressBlock></AddressBlock>
+                                        <TimeFrom>08:00</TimeFrom>
+                                        <TimeTill>13:00</TimeTill>
+                                        <AddressBlock>${orders[i].activity.unloading.address.city + ' ' + orders[i].activity.unloading.address.street + ' ' + orders[i].activity.unloading.address.house_number + ' ' + orders[i].activity.unloading.address.zip_code}</AddressBlock>
                                         <Sequence>${Number(orders[i].activity.unloading.sequence)}</Sequence>
                                     </Activity>
-                                    <OrderType>${orders[i].order_type}</OrderType>
-                                    <TransportType>${orders[i].transport_type}</TransportType>
+                                    <OrderType>koerier</OrderType>
+                                    <TransportType>koerier</TransportType>
                                     <Plangroup>${orders[i].plangroup}</Plangroup>
-                                    <Cargo>${orders[i].cargo}</Cargo>
+                                    <Cargo>pakket</Cargo>
                                     <ReuseAddress>${!!orders[i].reuse_address}</ReuseAddress>
-                                    <Source>${orders[i].source}</Source>
+                                    <Source>MDC</Source>
                                 </Order>
                             </SLIM_Root>
                             <Organisation>${org_id}</Organisation>

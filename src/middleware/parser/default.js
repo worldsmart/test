@@ -20,12 +20,12 @@ module.exports = (filedata)=>{
                     name: shipment['ShipmentID'][0],
                     status: shipment['ShipmentStatus'][0],
                     date: date,
-                    units: shipment['Cargoline'][0]['PackingUnit'][0],
+                    units: shipment['Cargoline'][0]['PackingQuantity'][0],
                     weight: shipment['Cargoline'][0]['CargolineWeight'][0],
                     volume: shipment['Cargoline'][0]['CargolineVolume'][0],
                     load_meters: shipment['Cargoline'][0]['CargolineLoadingMeters'][0],
                     description: shipment['Cargoline'][0]['CargolineDescription'][0],
-                    cargo: shipment['Cargoline'][0]['MarksNumbers'][0],
+                    cargo: shipment['Cargoline'][0]['CargolineUnit'][0],
                     activities:{
                         loading: {
                             name: shipment['LoadingName'][0],
