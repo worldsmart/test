@@ -16,8 +16,11 @@
             </v-data-table>
         </v-card>
 
-        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+        <v-snackbar color="success" top right v-model="snackbar.success" :timeout="2000">
             Customer was deleted
+        </v-snackbar>
+        <v-snackbar color="error" top right v-model="snackbar.err" :timeout="2000">
+            Can`t get customer list
         </v-snackbar>
     </div>
 </template>
@@ -27,10 +30,12 @@
         name: 'CustomerList',
         data(){
             return{
-                customers: [],
                 search_string: '',
                 loading: true,
-                snackbar: false,
+                snackbar: {
+                    success: false,
+                    err: false
+                },
                 headers: [
                     {
                         text: 'ID',
@@ -59,11 +64,6 @@
             }
         },
         methods: {
-            search(){
-                this.display_customers = this.customers.filter((customer)=>{
-                    return !customer.name.indexOf(this.search_string);
-                });
-            },
             goToCustomer(id){
                 this.$router.push({ path: '/customer', query: { id: id } })
             },
@@ -75,10 +75,8 @@
                         }
                     }).then((res) => {
                         console.log(res);
-                        this.snackbar = true;
-                        this.customers = this.customers.filter(customer=>{
-                            return customer.id == id ? false : true;
-                        });
+                        this.snackbar.success = true;
+                        this.$store.commit('delCustomer', id);
                     }, (err) => {
                         console.log(err.bodyText);
                     });
@@ -92,12 +90,20 @@
                 }
             }).then((res) => {
                 console.log(res);
-                this.customers = res.body.customers;
-                this.display_customers = this.customers;
+                this.$store.state.customers = res.body.customers;
                 this.loading = false;
             }, (err) => {
                 console.log(err);
+                this.snackbar.err = true;
             });
+        },
+        computed:{
+            customers(){
+                return this.$store.state.customers;
+            }
+        },
+        destroyed: function(){
+            this.$store.state.customers = [];
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style='margin: 0 10px auto 10px'>
         <v-tabs class="elevation-2">
             <v-tabs-slider></v-tabs-slider>
             <v-tab>

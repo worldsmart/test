@@ -69,13 +69,19 @@
                 </v-list-item>
 
                 <v-card-actions>
-                    <v-btn text>Remove</v-btn>
+                    <v-btn @click="delZone(item.id)">Remove</v-btn>
                 </v-card-actions>
             </v-card>
         </div>
 
-        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+        <v-snackbar color="success" top right v-model="snackbar.success" :timeout="2000">
             Zip zone was successfully created
+        </v-snackbar>
+        <v-snackbar color="success" top right v-model="snackbar.remove" :timeout="2000">
+            Zip zone was successfully removed
+        </v-snackbar>
+        <v-snackbar color="error" top right v-model="snackbar.err" :timeout="2000">
+            {{snackbar.err_text}}
         </v-snackbar>
     </div>
 </template>
@@ -95,7 +101,12 @@
                 group: '',
                 zip_codes: [],
                 menu: false,
-                snackbar: false
+                snackbar: {
+                    success: false,
+                    err: false,
+                    err_text: '',
+                    remove: false
+                }
             }
         },
         methods: {
@@ -112,9 +123,10 @@
                 }).then((res) => {
                     this.zones.unshift(res.body.zone);
                     this.menu = false;
-                    this.snackbar = true;
+                    this.snackbar.success = true;
                 }, (err) => {
-                    console.log(err);
+                    this.snackbar.err = true;
+                    this.snackbar.err_text = err.body;
                 });
             },
             addZip: function () {
@@ -123,10 +135,25 @@
             },
             delZip: function (id) {
                 this.zip_codes.splice(id, 1);
+            },
+            delZone: function(id){
+                this.$http.delete('/api/zone?id=' + id, {
+                    headers: {
+                        Authorization: localStorage.getItem('jwt')
+                    }
+                }).then(() => {
+                    this.snackbar.remove = true;
+                    this.zones = this.zones.filter(zone=>{
+                        return zone.id == id ? false : true;
+                    })
+                }, (err) => {
+                    this.snackbar.err = true;
+                    this.snackbar.err_text = err;
+                });
             }
         },
         created: function(){
-
+            
         }
     }
 </script>

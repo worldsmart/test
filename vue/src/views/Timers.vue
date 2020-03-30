@@ -1,5 +1,5 @@
 <template>
-    <div class="table">
+    <div style="margin: 10px 10px auto 10px">
         <v-progress-linear
                 v-if="loading"
                 indeterminate
@@ -16,7 +16,7 @@
                     <v-text-field v-model="timer.name" label="Name" hide-details="auto"></v-text-field>
                 </v-list-item>
                 <v-list-item two-line>
-                    <v-text-field v-model="timer.action" label="Action" hide-details="auto"></v-text-field>
+                    <v-select v-model="timer.action" :items="['Parse from FTP', 'Parse from FTP']" label="Action"></v-select>
                 </v-list-item>
                 <v-list-item two-line>
                     <v-select v-model="timer.time" :items="['Day','Hour','Minute']" label="Run every:"></v-select>

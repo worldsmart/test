@@ -36,6 +36,28 @@ module.exports = async (data, id, org_id)=>{
 
             let r;
 
+            let parsedTime = {
+                loading: {
+                    from: orders[i].activity.loading.time_from ? orders[i].activity.loading.time_from.split(':') : ['00', '00'],
+                    till: orders[i].activity.loading.time_till && orders[i].activity.loading.time_till != orders[i].activity.loading.time_from ? orders[i].activity.loading.time_till.split(':') : ['23', '59']
+                },
+                unloading: {
+                    from: orders[i].activity.unloading.time_from ? orders[i].activity.unloading.time_from.split(':') : ['00', '00'],
+                    till: orders[i].activity.unloading.time_till && orders[i].activity.unloading.time_till != orders[i].activity.unloading.time_from ? orders[i].activity.unloading.time_till.split(':') : ['23','59']
+                }
+            }
+
+            date = {
+                loading:{
+                    dateFrom: new Date(orders[i].activity.loading.date.getTime() + 1000 * 60 * 60 * parsedTime.loading.from[0] + + 1000 * 60 * parsedTime.loading.from[1]),
+                    dateUntill: new Date(orders[i].activity.loading.date.getTime() + 1000 * 60 * 60 * parsedTime.loading.till[0] + + 1000 * 60 * parsedTime.loading.till[1])
+                },
+                unloading:{
+                    dateFrom: new Date(orders[i].activity.unloading.date.getTime() + 1000 * 60 * 60 * parsedTime.unloading.from[0] + + 1000 * 60 * parsedTime.unloading.from[1]),
+                    dateUntill: new Date(orders[i].activity.unloading.date.getTime() + 1000 * 60 * 60 * parsedTime.unloading.till[0] + + 1000 * 60 * parsedTime.unloading.till[1])
+                }
+            }
+
             try{
                 r = await axios.post('http://localhost:8082/ws/SF_SLIM_OrderControl', `
                 <soap:Envelope 
@@ -75,10 +97,10 @@ module.exports = async (data, id, org_id)=>{
                                         <Contactperson>${orders[i].activity.loading.contact_person}</Contactperson>
                                         <Remarks>${orders[i].activity.loading.remarks}</Remarks>
                                         <Date>${orders[i].activity.loading.date.toISOString()}</Date>
-                                        <DateFrom>${orders[i].activity.loading.date.toISOString()}</DateFrom>
-                                        <DateTill>${orders[i].activity.loading.date.toISOString()}</DateTill>
-                                        <TimeFrom>00:00</TimeFrom>
-                                        <TimeTill>00:00</TimeTill>
+                                        <DateFrom>${date.loading.dateFrom.toISOString()}</DateFrom>
+                                        <DateTill>${date.loading.dateUntill.toISOString()}</DateTill>
+                                        <TimeFrom>${orders[i].activity.loading.time_from ? orders[i].activity.loading.time_from : '00:00'}</TimeFrom>
+                                        <TimeTill>${orders[i].activity.loading.time_till && orders[i].activity.loading.time_till !=  orders[i].activity.loading.time_from ? orders[i].activity.loading.time_till : '23:59'}</TimeTill>
                                         <AddressBlock>${orders[i].activity.loading.address.city + ' ' + orders[i].activity.loading.address.street + ' ' + orders[i].activity.loading.address.house_number + ' ' + orders[i].activity.loading.address.zip_code}</AddressBlock>
                                         <Sequence>${Number(orders[i].activity.loading.sequence)}</Sequence>
                                     </Activity>
@@ -97,10 +119,10 @@ module.exports = async (data, id, org_id)=>{
                                         <Contactperson>${orders[i].activity.unloading.contact_person}</Contactperson>
                                         <Remarks>${orders[i].activity.unloading.remarks}</Remarks>
                                         <Date>${orders[i].activity.unloading.date.toISOString()}</Date>
-                                        <DateFrom>${orders[i].activity.unloading.date.toISOString()}</DateFrom>
-                                        <DateTill>${orders[i].activity.unloading.date.toISOString()}</DateTill>
-                                        <TimeFrom>08:00</TimeFrom>
-                                        <TimeTill>13:00</TimeTill>
+                                        <DateFrom>${date.unloading.dateFrom.toISOString()}</DateFrom>
+                                        <DateTill>${date.unloading.dateUntill.toISOString()}</DateTill>
+                                        <TimeFrom>${orders[i].activity.unloading.time_from ? orders[i].activity.unloading.time_from : '00:00'}</TimeFrom>
+                                        <TimeTill>${orders[i].activity.unloading.time_till && orders[i].activity.unloading.time_till != orders[i].activity.unloading.time_from ? orders[i].activity.unloading.time_till : '23:59'}</TimeTill>
                                         <AddressBlock>${orders[i].activity.unloading.address.city + ' ' + orders[i].activity.unloading.address.street + ' ' + orders[i].activity.unloading.address.house_number + ' ' + orders[i].activity.unloading.address.zip_code}</AddressBlock>
                                         <Sequence>${Number(orders[i].activity.unloading.sequence)}</Sequence>
                                     </Activity>

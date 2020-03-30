@@ -1,6 +1,6 @@
 <template>
     <div class="form">
-        <v-card class="mx-auto" outlined>
+        <v-card :loading='loading' class="mx-auto" outlined>
             <v-list-item three-line>
                 <v-list-item-content>
                     <v-list-item-title class="headline mb-1">Add Customer</v-list-item-title>
@@ -13,6 +13,13 @@
                 </v-list-item-content>
             </v-list-item>
         </v-card>
+
+        <v-snackbar color="success" top right v-model="snackbar.success" :timeout="2000">
+            Customer was created
+        </v-snackbar>
+        <v-snackbar color="error" top right v-model="snackbar.err" :timeout="2000">
+            {{snackbar.err_text}}
+        </v-snackbar>
     </div>
 </template>
 
@@ -23,11 +30,18 @@
             return{
                 name: '',
                 slim_id: '',
-                active: true
+                active: true,
+                loading: false,
+                snackbar:{
+                    success: false,
+                    err: false,
+                    err_text: ''
+                }
             }
         },
         methods: {
             submit: function () {
+                this.loading = true;
                 this.$http.put('/api/customer', {
                     name: this.name,
                     slim_id: this.slim_id,
@@ -37,10 +51,13 @@
                         Authorization: localStorage.getItem('jwt')
                     }
                 }).then((res) => {
-                    console.log(res);
-                    document.location.reload(true);
+                    this.loading = false;
+                    this.$store.state.customers.unshift(res.body.customer);
+                    this.snackbar.success = true;
                 }, (err) => {
-                    console.log(err);
+                    this.loading = false;
+                    this.snackbar.err = true;
+                    this.snackbar.err_text = err.body;
                 });
             }
         }

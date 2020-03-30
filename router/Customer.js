@@ -16,7 +16,7 @@ router.put('/', (req, res, next)=>{
                 }
             }).then((customer)=>{
                 if(!customer){
-                    res.json({err:'err'});
+                    res.status(500).send('Can`t create customer due DB err');
                     return;
                 }
                 res.json({customer:customer});
@@ -28,17 +28,18 @@ router.put('/', (req, res, next)=>{
                 active: data.active
             }).then((customer)=>{
                 if(!customer){
-                    res.json({err:'err'});
+                    res.status(500).send('Can`t create customer due DB err');
                     return;
                 }
                 res.json({customer:customer});
             });
         }
+    }else{
+        res.status(400).send('Fields [name, slim_id] are requered');
     }
 });
 
 router.get('/', (req, res, next)=>{
-    console.log('Get request for customer list captured');
     if(req.query.id){
         Customer.findOne({
             where: {

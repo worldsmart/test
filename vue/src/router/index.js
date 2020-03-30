@@ -8,6 +8,7 @@ import Clients from '../views/Clients.vue'
 import Client from '../views/Client.vue'
 import Order from '../views/Order.vue'
 import Timers from '../views/Timers.vue'
+import store from '../store.js'
 
 Vue.use(VueRouter)
 
@@ -74,13 +75,19 @@ router.beforeEach((to, from, next) => {
       }
     }).then((res) => {
       if(res.status == '200'){
+        if(!store.state.user.name){
+          store.state.user.name = res.body.user;
+          store.state.user.login = res.body.login;
+        }
         next();
       }
       else {
+        localStorage.removeItem('jwt');
         next('/login');
       }
     }, (err) => {
       console.log(err);
+      localStorage.removeItem('jwt');
       next('/login');
     });
   }else {

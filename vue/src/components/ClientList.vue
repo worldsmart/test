@@ -69,8 +69,11 @@
             </v-data-table>
         </v-card>
 
-        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+        <v-snackbar color="success" top right v-model="snackbar.success" :timeout="2000">
             Client was deleted
+        </v-snackbar>
+        <v-snackbar color="error" top right v-model="snackbar.err" :timeout="2000">
+            Unable delete client
         </v-snackbar>
     </div>
 </template>
@@ -82,7 +85,10 @@
         data(){
             return{
                 search_string: '',
-                snackbar: false,
+                snackbar: {
+                    success: false,
+                    err: false
+                },
                 headers: [
                     {
                         text: 'ID',
@@ -110,11 +116,6 @@
             }
         },
         methods: {
-            search(){
-                this.display_clients = this.clients.filter((client)=>{
-                    return !client.name.indexOf(this.search_string);
-                });
-            },
             goToClient: function (id) {
                 this.$router.push({ path: '/client', query: { id: id} })
             },
@@ -124,14 +125,13 @@
                         headers: {
                             Authorization: localStorage.getItem('jwt')
                         }
-                    }).then((res) => {
-                        console.log(res);
-                        this.snackbar = true;
+                    }).then(() => {
+                        this.snackbar.success = true;
                         this.clients = this.clients.filter(client=>{
                             return client.id == id ? false : true;
                         });
-                    }, (err) => {
-                        console.log(err.bodyText);
+                    }, () => {
+                        this.snackbar.err = true;
                     });
                 }
             }

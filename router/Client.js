@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Client, Ftp_settings, Order, Zone } = require('../db/index');
+const { Client, Ftp_settings, Order, Zone, Customer } = require('../db/index');
+const fs = require('fs');
+const path = require('path');
 
 router.put('/', (req, res, next)=>{
     let data = req.body;
-    if(data.name){
+    if(data.name && data.slim_id && data.parser){
         if(data.id){
             Client.update({
                 name: data.name,
@@ -46,13 +48,17 @@ router.put('/', (req, res, next)=>{
                     data_path: data.data_path
                 }).then((ftp=>{
                     if(!ftp){
-                        res.json({err:'err'});
+                        res.status(500).send('Can`t create client due DB err');
                         return;
                     }
-                    res.json({client:client});
+                    resClient = client.dataValues;
+                    resClient.Ftp_setting = ftp.dataValues;
+                    res.json({client:resClient});
                 }));
             });
         }
+    }else{
+        res.status(400).send('Fields [name, slim_id, parser] are requered');
     }
 });
 
@@ -89,6 +95,9 @@ router.get('/profile', (req, res, next)=>{
                 model: Ftp_settings
             },
             {
+                model: Customer
+            },
+            {
                 model: Order,
                 order: [
                     ['id', 'DESC']
@@ -123,6 +132,17 @@ router.delete('/', (req, res)=>{
     }else {
         res.status(400).send('Id query param required');
     }
+});
+
+router.get('/parser_list', (req, res)=>{
+    let dir = path.join(process.env.root, 'src', 'middleware', 'parser');
+    fs.readdir(dir, (err, files)=>{
+        if(err){
+            res.status(500);
+        }else{
+            res.json({files: files})
+        }
+    });
 });
 
 module.exports = router;

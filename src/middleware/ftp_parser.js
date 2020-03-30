@@ -60,10 +60,10 @@ module.exports = async ()=>{
             let parser;
 
             try{
-                parser = require(`./parser/${client.parser}.js`)
+                parser = require(`./parser/${client.parser}`)
             }catch (e) {
                 client_log.status = 'err';
-                client_log.err = `could not GET ${client.parser}.js parser`;
+                client_log.err = `could not GET ${client.parser} parser`;
                 log.client_processing.push(client_log);
                 continue;
             }
@@ -72,6 +72,7 @@ module.exports = async ()=>{
 
             let ftpClient = new ftp.Client();
             let connection = undefined;
+
             /*ftpClient.ftp.verbose = true;*/ //logging of ftp connection
 
             let options = {
@@ -113,6 +114,7 @@ module.exports = async ()=>{
             }
 
             console.log('starting checkup directories');
+
             //ftp dirs checkup
             let list;
             try{

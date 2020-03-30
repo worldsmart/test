@@ -1,5 +1,5 @@
 <template>
-    <div style="margin: 10px">
+    <div style="margin: 10px 10px auto 10px">
         <ClientList></ClientList>
     </div>
 </template>

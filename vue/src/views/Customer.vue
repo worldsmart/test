@@ -1,14 +1,14 @@
 <template>
-    <div>
+    <div style="margin: 10px 10px auto 10px">
         <v-progress-linear v-if="!customer.id" indeterminate color="cyan"></v-progress-linear>
-        <div style="margin:10px">
+        <div style="margin:10px" v-if="customer.id">
             Customer Profile
             <v-chip class="ma-2" label>ID: {{customer.id}}</v-chip>
             <v-chip class="ma-2" label>Name: {{customer.name}}</v-chip>
             <v-chip class="ma-2" label>Slim ID: {{customer.slim_organisation_id}}</v-chip>
             <v-chip class="ma-2" label>Active: {{customer.active}}</v-chip>
         </div>
-        <v-tabs class="elevation-2">
+        <v-tabs class="elevation-2" v-if="customer.id">
             <v-tabs-slider></v-tabs-slider>
             <v-tab>
                 Clients
@@ -42,6 +42,10 @@
                 </v-card>
             </v-tab-item>
         </v-tabs>
+
+        <v-snackbar color="error" top right v-model="snackbar.err" :timeout="2000">
+            {{snackbar.err_text}}
+        </v-snackbar>
     </div>
 </template>
 
@@ -60,7 +64,10 @@
         },
         data(){
             return{
-                customer: {}
+                snackbar: {
+                    err: false,
+                    err_text: ''
+                }
             }
         },
         methods: {
@@ -72,12 +79,20 @@
                     Authorization: localStorage.getItem('jwt')
                 }
             }).then((res) => {
-                console.log(res);
-                this.customer = res.body.customer;
+                this.$store.state.customer = res.body.customer;
                 this.loading = false;
-            }, (err) => {
-                console.log(err);
+            }, () => {
+                this.snackbar.err = true;
+                this.snackbar.err_text = 'Can`t get customer'
             });
+        },
+        computed:{
+            customer(){
+                return this.$store.state.customer;
+            }
+        },
+        destroyed: function(){
+            this.$store.state.customer = {};
         }
     }
 </script>

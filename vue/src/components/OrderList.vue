@@ -18,6 +18,9 @@
                 </tbody>
             </template>
         </v-simple-table>
+        <div v-if="!orders[0]" style="margin: 10px">
+            No orders yet
+        </div>
     </div>
 </template>
 
