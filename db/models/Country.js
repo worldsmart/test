@@ -1,7 +1,13 @@
 const model = (sequelize, Sequelize)=>{
     const Country = sequelize.define('country', {
-        name: Sequelize.STRING(1000),
-        code: Sequelize.STRING(1000)
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        code: {
+            type: Sequelize.STRING,
+            allowNull: false
+        }
     },{
         timestamps: false
     });

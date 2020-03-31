@@ -1,9 +1,18 @@
 const model = (sequelize, Sequelize)=>{
     const Client = sequelize.define('client', {
-        name: Sequelize.STRING(1000),
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         sync: Sequelize.BOOLEAN,
-        slim_id: Sequelize.STRING,
-        parser: Sequelize.STRING
+        slim_id: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        parser: {
+            type: Sequelize.STRING,
+            allowNull: false
+        }
     },{
         timestamps: false
     });

@@ -1,7 +1,13 @@
 const model = (sequelize, Sequelize)=>{
     const Ftp_files = sequelize.define('ftp_files', {
-        local_name: Sequelize.STRING(1000),
-        original_name:Sequelize.STRING(1000)
+        local_name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        original_name:{
+            type: Sequelize.STRING,
+            allowNull: false
+        }
     },{
         timestamps: false
     });

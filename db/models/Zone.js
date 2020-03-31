@@ -1,7 +1,13 @@
 const model = (sequelize, Sequelize)=>{
     const Zone = sequelize.define('zip_zone', {
-        name: Sequelize.TEXT,
-        plangroup: Sequelize.TEXT,
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        plangroup: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         zip_code_list: Sequelize.ARRAY(Sequelize.TEXT),
     },{
         timestamps: false

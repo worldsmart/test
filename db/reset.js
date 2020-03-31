@@ -162,14 +162,14 @@ function createClients(){
     return new Promise((resolve, reject) => {
         models.Client.sync({force:true}).then(()=>{
             models.Client.bulkCreate([
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 1},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 2},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 3},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 3},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 4},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 4},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: false, customer_id: 5},
-                {name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 6},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 1},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 2},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 3},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 3},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 4},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 4},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: false, customer_id: 5},
+                {slim_id: 'id', parser: 'parsername', name: faker.name.firstName() + ' ' + faker.name.lastName(), sync: true, customer_id: 6},
             ]).then(clients=>{
                 console.log('Default clients created');
                 resolve();

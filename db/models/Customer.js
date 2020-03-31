@@ -1,7 +1,13 @@
 const model = (sequelize, Sequelize)=>{
     const Customer = sequelize.define('customer', {
-        name: Sequelize.STRING(1000),
-        slim_organisation_id: Sequelize.STRING(1000),
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        slim_organisation_id: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         active: Sequelize.BOOLEAN
     },{
         timestamps: false
