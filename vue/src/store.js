@@ -9,7 +9,8 @@ const store = new Vuex.Store({
         user: {},
         customers: [],
         customer: {},
-        client: {}
+        client: {},
+        logs:{}
      },
      mutations: {
         delCustomer (state, id) {        //delete customer from local list

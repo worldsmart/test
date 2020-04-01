@@ -59,12 +59,12 @@ module.exports = async (data, id, org_id)=>{
             }
 
             try{
-                r = await axios.post('http://localhost:8082/ws/SF_SLIM_OrderControl', `
+                r = await axios.post('https://slim-accp.mendixcloud.com/ws/SF_SLIM_OrderControl', `
                 <soap:Envelope 
                 xmlns:tns="http://www.example.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <soap:Header>
                         <tns:authentication>
-                            <username>web</username>
+                            <username>MDC</username>
                             <password>Roma123</password>
                         </tns:authentication>
                     </soap:Header>

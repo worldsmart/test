@@ -8,6 +8,7 @@ const login = require('./Login');
 const ftp = require('./Ftp');
 const order = require('./Order');
 const timer = require('./Timer');
+const log = require('./Log');
 
 router.use('/customer', customer);
 router.use('/client', client);
@@ -16,6 +17,7 @@ router.use('/login', login);
 router.use('/ftp', ftp);
 router.use('/order', order);
 router.use('/timer', timer);
+router.use('/log', log);
 
 //testing module
 router.use('/test', require('./test'));
