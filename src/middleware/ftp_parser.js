@@ -2,6 +2,7 @@ const { Client, Ftp_settings, Order, Activity, Address, Country, Ftp_files, Cust
 const fs = require('fs');
 const path = require('path');
 const ftp = require("basic-ftp");
+const sftpClient = require('ssh2-sftp-client');
 const { uuid } = require('uuidv4');
 const push_to_slim = require('./push_to_slim');
 const { Op } = require('sequelize');
@@ -9,7 +10,7 @@ const { Op } = require('sequelize');
 module.exports = async ()=>{
     console.log('parsing ftp');
 
-    let logs = require('./log/ftp_parser');
+    let logs = require('./log/ftp_parser.json');
 
     let log = {
         start: new Date()
@@ -71,6 +72,7 @@ module.exports = async ()=>{
             console.log(`connecting to client ${client.id} ftp ...`);
 
             let ftpClient = new ftp.Client();
+            let sftp = new sftpClient();
             let connection = undefined;
 
             /*ftpClient.ftp.verbose = true;*/ //logging of ftp connection
@@ -86,6 +88,10 @@ module.exports = async ()=>{
             if(client.ftp_setting.port){
                 options.port = client.ftp_setting.port;
             }
+            
+            
+
+            
 
              try{
                  connection = await ftpClient.access(options);
@@ -228,7 +234,7 @@ module.exports = async ()=>{
             console.log('parsing clients FTP done');
             if(client_orders[0]){
                 console.log('sending data to SLIM');
-                await push_to_slim(client_orders, client.slim_id, client.customer.dataValues.slim_organisation_id);
+               // await push_to_slim(client_orders, client.slim_id, client.customer.dataValues.slim_organisation_id);
                 console.log('sending completed');
             }
             client_log.status = 'done';

@@ -1,1 +1,419 @@
-[]
+[
+	{
+		"start": "2020-04-01T08:18:24.069Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:19:05.333Z"
+	},
+	{
+		"start": "2020-04-01T08:19:40.193Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:20:21.389Z"
+	},
+	{
+		"start": "2020-04-01T08:20:47.224Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:21:28.393Z"
+	},
+	{
+		"start": "2020-04-01T08:29:40.593Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:30:21.848Z"
+	},
+	{
+		"start": "2020-04-01T08:34:04.291Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:34:04.462Z"
+	},
+	{
+		"start": "2020-04-01T08:35:22.439Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:35:22.582Z"
+	},
+	{
+		"start": "2020-04-01T08:36:01.020Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T08:36:42.272Z"
+	},
+	{
+		"start": "2020-04-01T09:08:22.019Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:08:22.153Z"
+	},
+	{
+		"start": "2020-04-01T09:08:58.465Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"status": "err",
+				"err": {
+					"msg": "could not connect to FTP",
+					"err": {
+						"name": "FTPError",
+						"code": 502
+					}
+				}
+			}
+		],
+		"end": "2020-04-01T09:08:58.556Z"
+	},
+	{
+		"start": "2020-04-01T09:09:50.632Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"status": "err",
+				"err": {
+					"msg": "could not connect to FTP",
+					"err": {
+						"name": "FTPError",
+						"code": 530
+					}
+				}
+			}
+		],
+		"end": "2020-04-01T09:09:50.690Z"
+	},
+	{
+		"start": "2020-04-01T09:10:06.648Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"status": "err",
+				"err": {
+					"msg": "could not connect to FTP",
+					"err": {
+						"name": "FTPError",
+						"code": 530
+					}
+				}
+			}
+		],
+		"end": "2020-04-01T09:10:06.702Z"
+	},
+	{
+		"start": "2020-04-01T09:10:39.070Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:10:39.247Z"
+	},
+	{
+		"start": "2020-04-01T09:11:41.917Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:11:42.113Z"
+	},
+	{
+		"start": "2020-04-01T09:12:29.238Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:12:29.428Z"
+	},
+	{
+		"start": "2020-04-01T09:12:58.683Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:12:58.848Z"
+	},
+	{
+		"start": "2020-04-01T09:13:37.899Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T09:13:38.072Z"
+	},
+	{
+		"start": "2020-04-01T10:00:03.761Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"status": "err",
+				"err": {
+					"msg": "could not connect to FTP",
+					"err": {}
+				}
+			}
+		],
+		"end": "2020-04-01T10:00:33.892Z"
+	},
+	{
+		"start": "2020-04-01T10:35:41.510Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T10:35:45.020Z"
+	},
+	{
+		"start": "2020-04-01T10:36:06.526Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T10:36:10.318Z"
+	},
+	{
+		"start": "2020-04-01T10:41:23.253Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T10:41:24.882Z"
+	},
+	{
+		"start": "2020-04-01T11:23:42.793Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:23:42.994Z"
+	},
+	{
+		"start": "2020-04-01T11:25:21.190Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:25:21.373Z"
+	},
+	{
+		"start": "2020-04-01T11:28:16.613Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:28:16.769Z"
+	},
+	{
+		"start": "2020-04-01T11:30:36.086Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:30:36.250Z"
+	},
+	{
+		"start": "2020-04-01T11:31:59.756Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:32:00.003Z"
+	},
+	{
+		"start": "2020-04-01T11:35:50.835Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:35:51.003Z"
+	},
+	{
+		"start": "2020-04-01T11:36:50.964Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:36:51.134Z"
+	},
+	{
+		"start": "2020-04-01T11:37:50.076Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:37:50.237Z"
+	},
+	{
+		"start": "2020-04-01T11:42:56.270Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:42:59.920Z"
+	},
+	{
+		"start": "2020-04-01T11:43:40.816Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:43:44.636Z"
+	},
+	{
+		"start": "2020-04-01T11:44:52.943Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:44:53.146Z"
+	},
+	{
+		"start": "2020-04-01T11:46:27.123Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:46:27.297Z"
+	},
+	{
+		"start": "2020-04-01T11:46:40.118Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:46:43.713Z"
+	},
+	{
+		"start": "2020-04-01T11:48:41.583Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:48:41.726Z"
+	},
+	{
+		"start": "2020-04-01T11:52:06.426Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:52:10.264Z"
+	},
+	{
+		"start": "2020-04-01T11:54:14.442Z",
+		"client_processing": [
+			{
+				"client_id": 9,
+				"processed_files": [],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-01T11:54:18.199Z"
+	}
+]
