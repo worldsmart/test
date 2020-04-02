@@ -7,7 +7,9 @@ const model = (sequelize, Sequelize)=>{
         password: Sequelize.STRING(1000),
         done_path: Sequelize.STRING(1000),
         err_path: Sequelize.STRING(1000),
-        data_path: Sequelize.STRING(1000)
+        data_path: Sequelize.STRING(1000),
+        ssh_key: Sequelize.TEXT,
+        use_sftp: Sequelize.BOOLEAN
     },{
         timestamps: false
     });

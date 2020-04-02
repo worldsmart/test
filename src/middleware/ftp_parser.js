@@ -51,12 +51,75 @@ module.exports = async ()=>{
             client_id: client.id
         };
 
-        if(!client.ftp_setting.host || !client.ftp_setting.user || !client.ftp_setting.password || !client.ftp_setting.done_path || !client.ftp_setting.err_path || !client.ftp_setting.data_path){
+        if(!client.ftp_setting.use_sftp && (!client.ftp_setting.host || !client.ftp_setting.user || !client.ftp_setting.password || !client.ftp_setting.done_path || !client.ftp_setting.err_path || !client.ftp_setting.data_path)){
             client_log.status = 'skipped';
             client_log.reason = 'incorrect FTP settings'
         }else if(!client.parser){
             client_log.status = 'skipped';
             client_log.reason = 'parser is not defined'
+        }else if(client.ftp_setting.use_sftp){
+            if(!client.ftp_setting.host || !client.ftp_setting.user || (!client.ftp_setting.password && !client.ftp_setting.ssh_key) || !client.ftp_setting.done_path || !client.ftp_setting.err_path || !client.ftp_setting.data_path){
+                client_log.status = 'skipped';
+                client_log.reason = 'incorrect FTP settings'
+            }else{
+                let options = {
+                    host: client.ftp_setting.host,
+                    user: client.ftp_setting.user,
+                };
+    
+                if(client.ftp_setting.port){
+                    options.port = client.ftp_setting.port;
+                }  
+                if(client.ftp_setting.password){
+                    options.password = client.ftp_setting.password;
+                } 
+                if(client.ftp_setting.ssh_key){
+                    options.privateKey = client.ftp_setting.ssh_key;
+                } 
+
+                try{
+                    parser = require(`./parser/${client.parser}`)
+                }catch (e) {
+                    client_log.status = 'err';
+                    client_log.err = `could not GET ${client.parser} parser`;
+                    log.client_processing.push(client_log);
+                    continue;
+                }
+
+                console.log(`connecting to client ${client.id} sftp ...`);
+                
+                const sftp = new sftpClient('example-client');
+
+                try{
+                    await sftp.connect(options);
+                }catch(e){
+                    console.log('FTP connection error');
+                    client_log.status = 'err';
+                     client_log.err = {
+                         msg: `could not connect to FTP`,
+                         err: e
+                     };
+                     log.client_processing.push(client_log);
+                     continue;
+                }
+
+                let dir = path.join(process.env.root, '/ftp/', client.id.toString());
+                if (!fs.existsSync(dir)) {
+                    fs.mkdirSync(dir);
+                }
+
+                console.log('starting checkup directories');
+
+                //ftp dirs checkup
+                
+                let dirs = {
+                    data: await sftp.exists(client.ftp_setting.data_path),
+                    done: await sftp.exists(client.ftp_setting.done_path),
+                    err: await sftp.exists(client.ftp_setting.err_path)
+                }
+                console.log(dirs)
+                console.log(await sftp.list(await sftp.cwd()))
+            }
         }else {
             let parser;
 
@@ -69,10 +132,9 @@ module.exports = async ()=>{
                 continue;
             }
 
-            console.log(`connecting to client ${client.id} ftp ...`);
+            console.log(`connecting to client ${client.id} ftps ...`);
 
             let ftpClient = new ftp.Client();
-            let sftp = new sftpClient();
             let connection = undefined;
 
             /*ftpClient.ftp.verbose = true;*/ //logging of ftp connection
@@ -87,11 +149,7 @@ module.exports = async ()=>{
 
             if(client.ftp_setting.port){
                 options.port = client.ftp_setting.port;
-            }
-            
-            
-
-            
+            }  
 
              try{
                  connection = await ftpClient.access(options);

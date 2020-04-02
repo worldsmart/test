@@ -19,7 +19,18 @@
                             <v-list-item three-line>
                                 <v-list-item-content>
                                     <v-list-item-title class="headline mb-1">Ftp settings(optional)</v-list-item-title>
-                                    <div>
+                                    <v-switch v-model="use_sftp" label="Use SFTP( FTP via SSH key )"></v-switch>
+                                    <div >
+                                    <div v-if="use_sftp">
+                                        <v-textarea
+                                        filled
+                                        name="input-7-4"
+                                        label="SSH key"
+                                        v-model="ssh_key"
+                                        ></v-textarea>
+                                        <v-file-input @change="loadTextFromFile()" show-size v-model='ssh_key_file' multiple label="Load from file"></v-file-input>
+                                    </div>
+                                        <div>
                                         <v-text-field v-model="ftp_name" label="Ftp name" hide-details="auto"></v-text-field>
                                     </div>
                                     <div>
@@ -42,6 +53,7 @@
                                     </div>
                                     <div>
                                         <v-text-field v-model="err_path" label="Err path" hide-details="auto"></v-text-field>
+                                    </div>
                                     </div>
                                 </v-list-item-content>
                             </v-list-item>
@@ -90,7 +102,10 @@
                 slim_id: '',
                 parserList: 'default',
                 parser: '',
-                loading: false
+                loading: false,
+                ssh_key: '',
+                use_sftp: false,
+                ssh_key_file: {}
             }
         },
         methods: {
@@ -109,7 +124,9 @@
                     done_path: this.done_path,
                     err_path: this.err_path,
                     slim_id: this.slim_id,
-                    parser: this.parser
+                    parser: this.parser,
+                    ssh_key: this.ssh_key,
+                    use_sftp: this.use_sftp
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')
@@ -123,6 +140,15 @@
                     this.snackbar.err_text = err.body;
                     this.loading = false;
                 });
+            },
+            loadTextFromFile() {
+                const file = this.ssh_key_file[0];
+                const reader = new FileReader();
+
+                reader.onload = e => {
+                    this.ssh_key = e.target.result;
+                }
+                reader.readAsText(file);
             }
         },
         created: function(){
@@ -132,7 +158,7 @@
                 }
             }).then((res) => {
                 this.parserList = res.body.files;
-            }, () => {
+            }, () => { 
                 this.parserList = ['default.js'];
             });
         }

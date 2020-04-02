@@ -4,6 +4,18 @@
             <v-list-item three-line>
                 <v-list-item-content>
                     <v-list-item-title class="headline mb-1">Ftp settings</v-list-item-title>
+                    <v-switch v-model="ftp_settings.use_sftp" label="Use SFTP( FTP via SSH key )"></v-switch>
+                    <div v-if="ftp_settings.use_sftp">
+                                    <div>
+                                        <v-textarea
+                                        filled
+                                        name="input-7-4"
+                                        label="SSH key"
+                                        v-model="ftp_settings.ssh_key"
+                                        ></v-textarea>
+                                        <v-file-input @change="loadTextFromFile($event)" show-size v-model='ssh_key_file' multiple label="Load from file"></v-file-input>
+                                    </div>
+                    </div>
                     <div>
                         <v-text-field v-model="ftp_settings.name" label="Ftp name" hide-details="auto"></v-text-field>
                     </div>
@@ -57,7 +69,8 @@
                 snackbar: {
                     success: false,
                     err: false,
-                    err_text: ''
+                    err_text: '',
+                    ssh_key_file: []
                 },
                 loading: false
             }
@@ -80,6 +93,15 @@
                     this.snackbar.err = true;
                     this.loading = false;
                 });
+            },
+            loadTextFromFile(ev) {
+                const file = ev[0];
+                const reader = new FileReader();
+
+                reader.onload = e => {
+                    this.ftp_settings.ssh_key = e.target.result;
+                }
+                reader.readAsText(file);
             }
         },
         created: function(){

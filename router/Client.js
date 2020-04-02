@@ -45,7 +45,9 @@ router.put('/', (req, res, next)=>{
                     password: data.password,
                     done_path: data.done_path,
                     err_path: data.err_path,
-                    data_path: data.data_path
+                    data_path: data.data_path,
+                    ssh_key: data.ssh_key,
+                    use_sftp: data.use_sftp
                 }).then((ftp=>{
                     if(!ftp){
                         res.status(500).send('Can`t create client due DB err');
