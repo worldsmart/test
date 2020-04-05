@@ -7,6 +7,7 @@ import Customer from '../views/Customer.vue'
 import Clients from '../views/Clients.vue'
 import Client from '../views/Client.vue'
 import Order from '../views/Order.vue'
+import Timers from '../views/Timers.vue'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     name: 'Order',
     component: Order,
     props: (route) => ({ id: route.query.id })
+  },
+  {
+    path: '/timers',
+    name: 'Timers',
+    component: Timers
   }
 ]
 

@@ -19,8 +19,11 @@
             </v-card-actions>
         </v-card>
 
-        <v-snackbar color="success" top right v-model="snackbar" :timeout="2000">
+        <v-snackbar color="success" top right v-model="snackbar.success" :timeout="2000">
             Ftp settings was successfully updated
+        </v-snackbar>
+        <v-snackbar color="success" top right v-model="snackbar.err" :timeout="2000">
+            {{snackbar.err_text}}
         </v-snackbar>
     </div>
 </template>
@@ -35,7 +38,11 @@
         },
         data(){
             return{
-                snackbar: false
+                snackbar: {
+                    success: false,
+                    err: false,
+                    err_text: ''
+                }
             }
         },
         methods: {
@@ -48,9 +55,10 @@
                         Authorization: localStorage.getItem('jwt')
                     }
                 }).then(() => {
-                    this.snackbar = true;
+                    this.snackbar.success = true;
                 }, (err) => {
-                    console.log(err);
+                    this.snackbar.err_text = err.body;
+                    this.snackbar.err = true;
                 });
             }
         },

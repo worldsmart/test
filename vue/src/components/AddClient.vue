@@ -5,6 +5,7 @@
                 <v-list-item-content>
                     <v-list-item-title class="headline mb-1">Add Client</v-list-item-title>
                     <v-text-field v-model="name" label="Client name" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="slim_id" label="Slim Id" hide-details="auto"></v-text-field>
                     <v-switch v-model="sync" label="Sync"></v-switch>
                     <div class="form">
                         <v-card class="mx-auto" outlined>
@@ -56,7 +57,8 @@
                 snackbar: false,
                 data_path: '',
                 done_path: '',
-                err_path: ''
+                err_path: '',
+                slim_id: ''
             }
         },
         methods: {
@@ -72,7 +74,8 @@
                     password: this.password,
                     data_path: this.data_path,
                     done_path: this.done_path,
-                    err_path: this.err_path
+                    err_path: this.err_path,
+                    slim_id: this.slim_id
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')

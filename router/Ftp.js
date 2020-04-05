@@ -71,18 +71,15 @@ router.get('/xml', (req, res, next)=>{
 });
 
 router.put('/', (req, res, next)=>{
-    console.log('Data captured', req.body);
     let data = req.body;
     Ftp_settings.update(data, {
         where: {
             id: data.id
         }
     }).then((ftp)=>{
-        if(!ftp){
-            res.json({err:'err'});
-            return;
-        }
         res.json({ftp:ftp});
+    }).catch(e=>{
+        res.status(500).send('Db err: ' + e);
     });
 });
 

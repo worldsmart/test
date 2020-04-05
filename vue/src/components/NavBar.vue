@@ -16,12 +16,15 @@
             <v-tab to="/clients">
                 Clients
             </v-tab>
-            <v-tab to="/orders">
+            <v-tab to="/timers">
+                Timers
+            </v-tab>
+            <!--<v-tab to="/orders">
                 Orders
             </v-tab>
             <v-tab to="/zones">
                 Zones
-            </v-tab>
+            </v-tab>-->
         </v-tabs>
 
     </div>

@@ -4,6 +4,7 @@
             Client:
             <v-chip class="ma-2" label>ID: {{client.id}}</v-chip>
             <v-chip class="ma-2" label>Name: {{client.name}}</v-chip>
+            <v-chip class="ma-2" label>Slim Id: {{client.slim_id}}</v-chip>
             <v-chip class="ma-2" label>Sync: {{client.sync}}</v-chip>
         </v-toolbar>
         <v-progress-linear

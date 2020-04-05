@@ -5,6 +5,7 @@
                 <v-list-item-content>
                     <v-list-item-title class="headline mb-1">Client options</v-list-item-title>
                     <v-text-field v-model="client.name"  label="Name" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="client.slim_id"  label="Slim Id" hide-details="auto"></v-text-field>
                     <v-switch v-model="client.sync"  label="Sync"></v-switch>
                 </v-list-item-content>
             </v-list-item>
@@ -36,7 +37,8 @@
                 this.$http.put('/api/client', {
                     name:  this.client.name,
                     sync: this.client.sync,
-                    id:  this.client.id
+                    id:  this.client.id,
+                    slim_id: this.client.slim_id
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')

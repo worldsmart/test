@@ -4,6 +4,8 @@ const router = require('./router/index');
 const jwt = require('jsonwebtoken');
 const user = require('./hardcode');
 const fileUpload = require('express-fileupload');
+const cronData = require('./src/cron');
+const cron = require('node-cron');
 
 let app = express();
 const port = 3000;
@@ -11,14 +13,30 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(fileUpload());
 
+//cron event restore
+if(!global.cron){
+    global.cron = {};
+    for(let key in cronData){
+        global.cron[key] = {
+            name: cronData[key].name,
+            action: cronData[key].action,
+            time: cronData[key].time,
+            hour: cronData[key].hour,
+            timestamp: cronData[key].timestamp,
+        };
+        global.cron[key].cron = cron.schedule(cronData[key].cron_time, () => {
+            console.log(cronData[key].name);
+        });
+        console.log('Cron with name "' + cronData[key].name + '" was restored')
+    }
+}
+
 process.env.root = __dirname;
 
+//disable cert validation rejection for self signed FTP cert
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
-/*process.on('unhandledRejection', error => {
-
-});*/
-
+//authorization middleware
 app.use((req, res, next)=>{
     if(req.url === '/api/login'){
         next();
@@ -35,31 +53,8 @@ app.use((req, res, next)=>{
     }
 });
 
+//REST rout
 app.use('/api', router);
-
-/*app.get('/test', (req, res)=>{
-   db.Customer.findAll({include: [{
-         model: db.Client,
-         include: [{
-            model: db.Zone
-         },{
-            model: db.Ftp_settings
-         },{
-             model: db.Order,
-             include: [{
-                 model: db.Activity,
-                 include: [{
-                     model: db.Address,
-                     include: [{
-                         model: db.Country
-                     }]
-                 }]
-             }]
-         }]
-      }]}).then((customers)=>{
-         res.json(customers);
-      });
-});*/
 
 app.listen(port, ()=>{
    console.log('Server started on port: ' + port);
