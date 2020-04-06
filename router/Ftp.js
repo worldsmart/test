@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Ftp_settings, Order, Activity, Address, Country, Ftp_files } = require('../db/index');
-const parser = require('../parser');
+const parser = require('../src/middleware/parser/default');
 const ftp = require("basic-ftp");
 const fs = require('fs');
 const path = require('path');

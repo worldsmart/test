@@ -6,6 +6,7 @@ const user = require('./hardcode');
 const fileUpload = require('express-fileupload');
 const cronData = require('./src/cron');
 const cron = require('node-cron');
+const cronExecutor = require('./src/middleware/cronExecutor');
 
 let app = express();
 const port = 3000;
@@ -25,7 +26,7 @@ if(!global.cron){
             timestamp: cronData[key].timestamp,
         };
         global.cron[key].cron = cron.schedule(cronData[key].cron_time, () => {
-            console.log(cronData[key].name);
+            cronExecutor(cronData[key].action);
         });
         console.log('Cron with name "' + cronData[key].name + '" was restored')
     }

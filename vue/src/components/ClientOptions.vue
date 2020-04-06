@@ -6,6 +6,7 @@
                     <v-list-item-title class="headline mb-1">Client options</v-list-item-title>
                     <v-text-field v-model="client.name"  label="Name" hide-details="auto"></v-text-field>
                     <v-text-field v-model="client.slim_id"  label="Slim Id" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="client.parser"  label="XML parser" hide-details="auto"></v-text-field>
                     <v-switch v-model="client.sync"  label="Sync"></v-switch>
                 </v-list-item-content>
             </v-list-item>
@@ -38,7 +39,8 @@
                     name:  this.client.name,
                     sync: this.client.sync,
                     id:  this.client.id,
-                    slim_id: this.client.slim_id
+                    slim_id: this.client.slim_id,
+                    parser: this.client.parser
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')

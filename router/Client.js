@@ -9,7 +9,8 @@ router.put('/', (req, res, next)=>{
             Client.update({
                 name: data.name,
                 sync: data.sync,
-                slim_id: data.slim_id
+                slim_id: data.slim_id,
+                parser: data.parser
             },{
                 where: {
                     id: data.id
@@ -26,7 +27,8 @@ router.put('/', (req, res, next)=>{
                 name: data.name,
                 sync: data.sync,
                 customer_id: data.customer_id,
-                slim_id: data.slim_id
+                slim_id: data.slim_id,
+                parser: data.parser
             }).then((client)=>{
                 if(!client){
                     res.json({err:'err'});

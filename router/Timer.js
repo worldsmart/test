@@ -3,6 +3,7 @@ const router = express.Router();
 const cron = require('node-cron');
 const fs = require('fs');
 const path = require('path');
+const cronExecutor = require('../src/middleware/cronExecutor');
 let cronData = require('../src/cron');
 
 router.get('/', (req, res)=>{
@@ -50,7 +51,7 @@ router.put('/', (req, res)=>{
     global.cron[req.body.name] = req.body;
 
     global.cron[req.body.name].cron = cron.schedule(cronTime, () => {
-        console.log(req.body.name);
+        cronExecutor(req.body.action);
     });
 
     cronData[req.body.name] = {

@@ -6,6 +6,7 @@
                     <v-list-item-title class="headline mb-1">Add Client</v-list-item-title>
                     <v-text-field v-model="name" label="Client name" hide-details="auto"></v-text-field>
                     <v-text-field v-model="slim_id" label="Slim Id" hide-details="auto"></v-text-field>
+                    <v-text-field v-model="parser" label="XML parser" hide-details="auto"></v-text-field>
                     <v-switch v-model="sync" label="Sync"></v-switch>
                     <div class="form">
                         <v-card class="mx-auto" outlined>
@@ -58,7 +59,8 @@
                 data_path: '',
                 done_path: '',
                 err_path: '',
-                slim_id: ''
+                slim_id: '',
+                parser: 'default'
             }
         },
         methods: {
@@ -75,7 +77,8 @@
                     data_path: this.data_path,
                     done_path: this.done_path,
                     err_path: this.err_path,
-                    slim_id: this.slim_id
+                    slim_id: this.slim_id,
+                    parser: this.parser
                 }, {
                     headers: {
                         Authorization: localStorage.getItem('jwt')
