@@ -1,9 +1,10 @@
-const { Client, Ftp_settings, Order, Activity, Address, Country, Ftp_files } = require('../../db/index');
+const { Client, Ftp_settings, Order, Activity, Address, Country, Ftp_files, Customer, Zone } = require('../../db/index');
 const fs = require('fs');
 const path = require('path');
 const ftp = require("basic-ftp");
 const { uuid } = require('uuidv4');
 const push_to_slim = require('./push_to_slim');
+const { Op } = require('sequelize');
 
 module.exports = async ()=>{
     console.log('parsing ftp');
@@ -22,6 +23,9 @@ module.exports = async ()=>{
         clients = await Client.findAll({
             include: [{
                 model: Ftp_settings
+            },
+            {
+                model: Customer
             }]
         });
     }catch (e) {
@@ -190,8 +194,10 @@ module.exports = async ()=>{
                     console.log('parsing done');
 
                     console.log('saving data from file to DB');
+
+                    let createdOrders;
                     try{
-                        await createOrders(data, client.id);
+                        createdOrders = await createOrders(data, client.id);
                         await ftpClient.uploadFrom(`./ftp/${client.id}/${filename}`, client.ftp_setting.done_path + '/' + list[i].name);
                         await ftpClient.remove(client.ftp_setting.data_path + '/' + list[i].name);
                         await Ftp_files.create({
@@ -200,7 +206,7 @@ module.exports = async ()=>{
                             original_name: list[i].name
                         });
                     }catch (e) {
-                        console.log('Data save failed');
+                        console.log('Data save failed', e);
                         file_log.status = 'err';
                         file_log.err = {
                             msg: `Data save failed`,
@@ -212,7 +218,7 @@ module.exports = async ()=>{
                     }
 
                     console.log('File processing done');
-                    client_orders.push(data);
+                    client_orders.push(createdOrders);
                     file_log.status = 'done';
                     client_log.processed_files.push(file_log);
                 }
@@ -220,7 +226,8 @@ module.exports = async ()=>{
             console.log('parsing clients FTP done');
             if(client_orders[0]){
                 console.log('sending data to SLIM');
-                push_to_slim(client_orders, client.slim_id);
+                await push_to_slim(client_orders, client.slim_id, client.customer.dataValues.slim_organisation_id);
+                console.log('sending completed');
             }
             client_log.status = 'done';
         }
@@ -245,7 +252,9 @@ function saveLogs(logs) {
 }
 
 async function createOrders(data, client_id){
+    let returnOrders = [];
     for(let i = 0;i < data.length;i++){
+        let returnOrder;
         let order = await Order.create({
             name: data[i].name,
             date: data[i].date,
@@ -259,7 +268,12 @@ async function createOrders(data, client_id){
             additional: data[i].additional
         });
 
+        returnOrder = order.dataValues;
+        returnOrder.activity = [];
+
         for(let key in data[i].activities){
+            let returnActivity;
+
             let country = await Country.findOne({
                 where:{
                     code: data[i].activities[key].address.country
@@ -288,6 +302,33 @@ async function createOrders(data, client_id){
                 shipment_id: order.dataValues.id,
                 address_id: address.dataValues.id
             });
+
+            returnActivity = activity.dataValues;
+            returnActivity.address = address.dataValues;
+
+            let zip_zone = null;
+
+            if(returnActivity.type == 'unloading'){
+                zip_zone = await Zone.findOne({
+                    where: {
+                        client_id: client_id,
+                        zip_code_list: {
+                            [Op.contains]: [returnActivity.address.zip_code]
+                        }
+                    }
+                });
+            }
+
+            if(zip_zone){
+                returnOrder.plangroup = zip_zone.dataValues.plangroup;
+            }else{
+                returnOrder.plangroup = 'Default';
+            }
+
+            returnActivity.address.country = country.dataValues;
+            returnOrder.activity.push(returnActivity);
         }
+        returnOrders.push(returnOrder);
     }
+    return returnOrders;
 }

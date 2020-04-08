@@ -1,0 +1,11 @@
+[
+	{
+		"start": "2020-04-08T18:00:14.423Z",
+		"client_slim_id": "afz",
+		"orders_count": 643,
+		"orders_pushed": 643,
+		"orders_failed": 0,
+		"failed_orders": [],
+		"end": "2020-04-08T18:03:33.469Z"
+	}
+]

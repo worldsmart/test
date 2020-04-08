@@ -1,1 +1,10 @@
-{}
+{
+	"Name": {
+		"name": "Name",
+		"action": "Parse from FTP",
+		"time": "Hour",
+		"hour": "",
+		"cron_time": "0 * * * *",
+		"timestamp": "2020-04-07T00:46:20.554Z"
+	}
+}

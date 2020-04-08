@@ -1,1 +1,49 @@
-[]
+[
+	{
+		"start": "2020-04-08T18:00:00.005Z",
+		"client_processing": [
+			{
+				"client_id": 1,
+				"status": "skipped",
+				"reason": "incorrect FTP settings"
+			},
+			{
+				"client_id": 2,
+				"status": "skipped",
+				"reason": "incorrect FTP settings"
+			},
+			{
+				"client_id": 4,
+				"status": "skipped",
+				"reason": "incorrect FTP settings"
+			},
+			{
+				"client_id": 3,
+				"status": "skipped",
+				"reason": "incorrect FTP settings"
+			},
+			{
+				"client_id": 7,
+				"status": "skipped",
+				"reason": "incorrect FTP settings"
+			},
+			{
+				"client_id": 6,
+				"processed_files": [],
+				"status": "done"
+			},
+			{
+				"client_id": 5,
+				"processed_files": [
+					{
+						"original_name": "test.xml",
+						"local_name": "ed8436b2-56fe-4751-8473-1f59ba626e36.xml",
+						"status": "done"
+					}
+				],
+				"status": "done"
+			}
+		],
+		"end": "2020-04-08T18:03:33.491Z"
+	}
+]

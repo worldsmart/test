@@ -17,4 +17,7 @@ router.use('/ftp', ftp);
 router.use('/order', order);
 router.use('/timer', timer);
 
+//testing module
+router.use('/test', require('./test'));
+
 module.exports = router;

@@ -1,21 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { Customer, Client, Ftp_settings } = require('../db/index');
-const axios = require('axios');
-
-router.get('/push_to_mendix', (req, res)=>{
-    axios.put('http://localhost:8081/rest/restcrm/v1/customers', {
-        "Name": "Random Name1",
-        "ItemId": "random id2"
-    })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    res.json({});
-});
 
 router.put('/', (req, res, next)=>{
     let data = req.body;
